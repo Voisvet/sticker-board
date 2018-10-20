@@ -12,7 +12,7 @@ function srcPath(subdir) {
 module.exports = {
     mode: "development",
     entry: {
-        app: ["./src/index.jsx"]
+        app: ["./src/index.js"]
     },
     output: {
         path: path.join(__dirname, outputDirectory),
@@ -52,10 +52,10 @@ module.exports = {
             title: "My App",
             hash: true,
             template: "src/index.html"
-        }),
-        new webpack.DefinePlugin({
-          BACKEND_URL: `"${process.env.BACKEND_URL}"`
-        })
+        })//,
+        // new webpack.DefinePlugin({
+        //   BACKEND_URL: `"${process.env.BACKEND_URL}"`
+        // })
     ],
     devServer: {
         contentBase: outputDirectory,
