@@ -1,1 +1,3 @@
-console.log("Я родился!");
+import { hello } from './App';
+
+hello();
