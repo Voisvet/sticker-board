@@ -51,7 +51,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "My App",
             hash: true,
-            template: "stub/index.html"
+            template: "src/index.html"
         }),
         new webpack.DefinePlugin({
           BACKEND_URL: `"${process.env.BACKEND_URL}"`
