@@ -11,9 +11,7 @@ function srcPath(subdir) {
 
 module.exports = {
     mode: "development",
-    entry: {
-        app: ["./src/index.js"]
-    },
+    entry: ["./src"],
     output: {
         path: path.join(__dirname, outputDirectory),
         filename: "[name].js"
@@ -43,7 +41,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.json', '.jsx']
+        extensions: ['.js', '.json', '.jsx', '.css']
     },
     devtool: "source-map",
     plugins: [
