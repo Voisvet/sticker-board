@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ListAdminPage = () => {
   return (
-    <p>Hello from /admins</p>
+    <div>
+      <p>Hello from /admins</p>
+    </div>
   );
 };
 
