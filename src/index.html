@@ -6,10 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My App</title>
+    <style media="screen">
+      html {
+        min-width: 100%;
+        min-height: 100%;
+      }
+      body {
+        margin: 0;
+        background: -webkit-linear-gradient(to bottom left, #3eabe3, #2095cb); /* Safari 5.1, iOS 5.0-6.1, Chrome 10-25, Android 4.0-4.3 */
+        background: -moz-linear-gradient(to bottom left, #3eabe3, #2095cb); /* Firefox 3.6-15 */
+        background: -o-linear-gradient(to bottom left, #3eabe3, #2095cb); /* Opera 11.1-12 */
+        background: linear-gradient(to bottom left, #3eabe3, #2095cb); /* Opera 15+, Chrome 25+, IE 10+, Firefox 16+, Safari 6.1+, iOS 7+, Android 4.4+ */
+        background-repeat: no-repeat;
+      }
+      .container {
+        background-color: white;
+        margin: 5% 5%;
+        min-height: 75vh;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      }
+    </style>
 </head>
 
 <body>
+  <div class="container">
     <div id="app"></div>
+  </div>
 </body>
 
 </html>
