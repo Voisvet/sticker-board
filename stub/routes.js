@@ -13,6 +13,16 @@ stubs.get('/login', (req, res, next) => {
   res.send(response);
 });
 
+// Middleware for checking authorization token
+stubs.use((req, res, next) => {
+  if (req.query.token != 'VGhpcyBpcyB0b2tlbg==') {
+    response = fs.readFileSync(path.join(__dirname, './json/auth_error.json'));
+    res.send(response);
+  } else {
+    next();
+  }
+});
+
 stubs.get('/logout', (req, res, next) => {
   response = fs.readFileSync(path.join(__dirname, './json/logout.json'));
   res.send(response);

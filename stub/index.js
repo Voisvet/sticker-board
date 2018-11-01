@@ -8,7 +8,7 @@ const app = express();
 
 
 app.listen(8090, () => console.log("Listening on port 8090!"));
-app.use(stubs);
+app.use('/api', stubs);
 
 
 module.exports = app;
