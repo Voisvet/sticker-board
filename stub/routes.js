@@ -9,7 +9,11 @@ var stubs = express.Router();
  */
 
 stubs.get('/login', (req, res, next) => {
-  response = fs.readFileSync(path.join(__dirname, './json/login.json'));
+  if (req.query.login == 'Andrey' && req.query.password == '123') {
+    response = fs.readFileSync(path.join(__dirname, './json/login.json'));
+  } else {
+    response = fs.readFileSync(path.join(__dirname, './json/login_failed.json'));
+  }
   res.send(response);
 });
 
