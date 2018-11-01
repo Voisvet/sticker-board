@@ -42,8 +42,12 @@ stubs.get('/admins/list', (req, res, next) => {
 });
 
 stubs.get('/admins/info/:id', (req, res, next) => {
-  fileName = req.params.id + '.json'
-  response = fs.readFileSync(path.join(__dirname, './json/admins/info', fileName));
+  try {
+    fileName = req.params.id + '.json'
+    response = fs.readFileSync(path.join(__dirname, './json/admins/info', fileName));
+  } catch (err) {
+    response = fs.readFileSync(path.join(__dirname, './json/id_not_found.json'));
+  }
   res.send(response);
 });
 
@@ -72,8 +76,12 @@ stubs.post('/messages/create', (req, res, next) => {
 });
 
 stubs.get('/messages/payload/:id', (req, res, next) => {
-  fileName = req.params.id + '.json'
-  response = fs.readFileSync(path.join(__dirname, './json/messages/payload', fileName));
+  try {
+    fileName = req.params.id + '.json'
+    response = fs.readFileSync(path.join(__dirname, './json/messages/payload', fileName));
+  } catch (err) {
+    response = fs.readFileSync(path.join(__dirname, './json/id_not_found.json'));
+  }
   res.send(response);
 });
 
@@ -89,8 +97,12 @@ stubs.get('/messages/stickers/recent', (req, res, next) => {
 });
 
 stubs.get('/messages/stickers/preview/:id', (req, res, next) => {
-  fileName = req.params.id + '.json'
-  response = fs.readFileSync(path.join(__dirname, './json/messages/stickers/preview', fileName));
+  try {
+    fileName = req.params.id + '.json'
+    response = fs.readFileSync(path.join(__dirname, './json/messages/stickers/preview', fileName));
+  } catch (err) {
+    response = fs.readFileSync(path.join(__dirname, './json/id_not_found.json'));
+  }
   res.send(response);
 });
 
