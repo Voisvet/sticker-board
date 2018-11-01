@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 var stubs = express.Router();
 
@@ -6,39 +8,86 @@ var stubs = express.Router();
  * Methods-helpers
  */
 
-stubs.get('/login', (req, res, next) => {});
+stubs.get('/login', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/login.json'));
+  res.send(response);
+});
 
-stubs.get('/logout', (req, res, next) => {});
+stubs.get('/logout', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/logout.json'));
+  res.send(response);
+});
 
 /*
  * Administrators management
  */
 
-stubs.get('/admins/list', (req, res, next) => {});
+stubs.get('/admins/list', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/admins/list.json'));
+  res.send(response);
+});
 
-stubs.get('/admins/info/:id', (req, res, next) => {});
+stubs.get('/admins/info/:id', (req, res, next) => {
+  fileName = req.params.id + '.json'
+  response = fs.readFileSync(path.join(__dirname, './json/admins/info', fileName));
+  res.send(response);
+});
 
-stubs.put('/admins/info/:id', (req, res, next) => {});
+stubs.put('/admins/info/:id', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/admins/info/put.json'));
+  res.send(response);
+});
 
-stubs.post('/admins/create', (req, res, next) => {});
+stubs.post('/admins/create', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/admins/create.json'));
+  res.send(response);
+});
 
 /*
  * Messages management
  */
 
-stubs.get('/messages/list', (req, res, next) => {});
+stubs.get('/messages/list', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/messages/list.json'));
+  res.send(response);
+});
 
-stubs.post('/messages/create', (req, res, next) => {});
+stubs.post('/messages/create', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/messages/create.json'));
+  res.send(response);
+});
 
-stubs.get('/messages/info/:id', (req, res, next) => {});
+stubs.get('/messages/payload/:id', (req, res, next) => {
+  fileName = req.params.id + '.json'
+  response = fs.readFileSync(path.join(__dirname, './json/messages/payload', fileName));
+  res.send(response);
+});
 
-stubs.put('/messages/info/:id', (req, res, next) => {});
+stubs.put('/messages/payload/:id', (req, res, next) => {
+  fileName = req.params.id + '.json'
+  response = fs.readFileSync(path.join(__dirname, './json/messages/payload/put.json'));
+  res.send(response);
+});
+
+stubs.get('/messages/stickers/recent', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/messages/stickers/recent.json'));
+  res.send(response);
+});
+
+stubs.get('/messages/stickers/preview/:id', (req, res, next) => {
+  fileName = req.params.id + '.json'
+  response = fs.readFileSync(path.join(__dirname, './json/messages/stickers/preview', fileName));
+  res.send(response);
+});
 
 /*
  * Messages management
  */
 
-stubs.get('/rekognition/list', (req, res, next) => {});
+stubs.get('/rekognition/list', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/rekognition/list.json'));
+  res.send(response);
+});
 
 // Export module
 module.exports = stubs;
