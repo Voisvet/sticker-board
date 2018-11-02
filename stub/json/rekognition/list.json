@@ -1,0 +1,28 @@
+{
+  "status_code": 0,
+  "error": "",
+  "list": [
+    {
+      "id": 0,
+      "entities": [
+        {
+          "name": "human",
+          "confidence": 1.0
+        },
+        {
+          "name": "teapot",
+          "confidence": 0.15
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "entities": [
+        {
+          "name": "cat",
+          "confidence": 1.0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "status_code": 0,
+  "error": "",
+  "list": [
+    {
+      "id": 0,
+      "name": "Andrey",
+      "email": "a.pavlenko@innopolis.ru",
+      "access_rights": 0
+    },
+    {
+      "id": 1,
+      "name": "Sergey",
+      "email": "s.koziakov@innopolis.ru",
+      "access_rights": 1
+    },
+    {
+      "id": 2,
+      "name": "Egor",
+      "email": "e.sorokin@innopolis.university",
+      "access_rights": 2
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "status_code": 0,
+  "error": "",
+  "admin": {
+    "last_actions": [
+      {
+        "datetime": "1540814775257",
+        "action_description": "Create new message. ID: 1"
+      },
+      {
+        "datetime": "1540814858982",
+        "action_description": "Edit message with ID 1"
+      }
+    ]
+  }
+}

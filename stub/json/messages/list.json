@@ -1,0 +1,20 @@
+{
+  "status_code": 0,
+  "error": "",
+  "list": [
+    {
+      "id": 0,
+      "type": "scheduled",
+      "date": 1540819161661,
+      "days_of_week": [],
+      "payload_type": "message"
+    },
+    {
+      "id": 1,
+      "type": "periodic",
+      "date": 0,
+      "days_of_week": ["wed"],
+      "payload_type": "sticker"
+    }
+  ]
+}

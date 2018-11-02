@@ -51,10 +51,10 @@ module.exports = {
             title: "My App",
             hash: true,
             template: "src/index.html"
-        })//,
-        // new webpack.DefinePlugin({
-        //   BACKEND_URL: `"${process.env.BACKEND_URL}"`
-        // })
+        }),
+        new webpack.DefinePlugin({
+          BACKEND_URL: '"' + process.env.BACKEND_URL + '"'
+        })
     ],
     devServer: {
         contentBase: outputDirectory,
