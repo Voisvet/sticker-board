@@ -31,7 +31,7 @@ class ApiConnector {
   // Required fields - token
   // Optional fields - mode, amount, page
   // TODO: Implement pagination using optional params
-  async getListOfMessages(token, mode, amount, page) {
+  async getListOfMessages(token, mode=0, amount=undefined, page=undefined) {
     // Request url
     const url = BACKEND_URL + '/messages/list';
     //Check token
@@ -68,7 +68,7 @@ class ApiConnector {
   // Required fields - token
   // Optional fields - mode, amount, page
   // TODO: Implement pagination using optional params
-  async getListOfAdmins(token, mode, amount, page) {
+  async getListOfAdmins(token, mode=0, amount=undefined, page=undefined) {
     // Request url
     const url = BACKEND_URL + '/admins/list';
     // Check token
@@ -105,7 +105,7 @@ class ApiConnector {
   // Required fields - token
   // Optional fields - mode, amount, page
   // TODO: Implement pagination using optional params
-  async getListOfImages(token, mode, amount, page) {
+  async getListOfImages(token, mode=0, amount=undefined, page=undefined) {
     // Request url
     const url = BACKEND_URL + '/rekognition/list';
     // Check token
