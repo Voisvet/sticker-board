@@ -49,8 +49,29 @@ class Login extends React.Component {
     props.dispatch(actions.fetchTokenFromCookies());
   }
 
+  loginButtonOnClickHandler = () => {
+    let login = document.getElementById('username-textfield').value;
+    let password = document.getElementById('password-textfield').value;
+    if (login.length > 0 && password.length > 0) {
+      this.props.dispatch(actions.fetchTokenFromServer(login, password));
+    } else {
+      if (login.length <= 0) {
+        console.log('Ай-яй-яй логин');
+      }
+      if (password.length <= 0) {
+        console.log('Ай-яй-яй пароль');
+      }
+    }
+  }
+
   render() {
     const { classes } = this.props;
+
+    let errorMessage = this.props.errorMessage ? (
+      <Typography variant="caption" color="inherit" color="secondary">
+        {this.props.errorMessage}
+      </Typography>
+    ) : '';
 
     // If token exists, then user has already logged in,
     // then just redirect to the app part
@@ -62,22 +83,25 @@ class Login extends React.Component {
           <Typography variant="h6" color="inherit">
             TG Bot CP
           </Typography>
+          {errorMessage}
           <TextField
-            id="outlined-username"
+            id="username-textfield"
             className={classes.inputField}
             label="Username"
             margin="normal"
           />
           <TextField
-            id="outlined-password"
+            id="password-textfield"
             className={classes.inputField}
             label="Password"
+            type="password"
             margin="normal"
           />
           <Button
             variant="contained"
             color="primary"
             className={classes.loginButton}
+            onClick={this.loginButtonOnClickHandler}
           >
             Log In
           </Button>
@@ -94,7 +118,9 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    token: selectors.getUserToken(state)
+    token: selectors.getUserToken(state),
+    fetchingInProgress: selectors.getFetchingState(state),
+    errorMessage: selectors.getErrorMessage(state)
   };
 };
 
