@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action = {}) {
 // Selectors for this part of store
 
 export function getListOfImages(state) {
-  return state.rekognition.token;
+  return state.rekognition.list;
 }
 
 export function getFetchingState(state) {

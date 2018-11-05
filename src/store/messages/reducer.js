@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action = {}) {
 // Selectors for this part of store
 
 export function getListOfMessages(state) {
-  return state.messages.token;
+  return state.messages.list;
 }
 
 export function getFetchingState(state) {

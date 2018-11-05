@@ -9,7 +9,6 @@ export function fetchTokenFromCookies() {
   return (dispatch, getState) => {
     let token = Cookies.get('user-token');
     if (typeof(token) == 'string') {
-      console.log('reached dispatching', getState());
       dispatch({
         type: types.TOKEN_FETCHED,
         token

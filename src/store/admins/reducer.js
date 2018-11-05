@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action = {}) {
 // Selectors for this part of store
 
 export function getListOfAdmins(state) {
-  return state.admins.token;
+  return state.admins.list;
 }
 
 export function getFetchingState(state) {

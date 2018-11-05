@@ -66,7 +66,6 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(1);
     // Get data from server at the initialization
     if (this.props.token) {
       props.dispatch(adminsActions.fetchListOfAdmins());
