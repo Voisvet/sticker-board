@@ -7,7 +7,7 @@ export function fetchListOfMessages() {
   return async(dispatch, getState) => {
     // Notify that fetch started
     dispatch({
-      type: types.TOKEN_FETCH_STARTED
+      type: types.MESSAGES_FETCH_STARTED
     });
 
     const token = getState().user.token;
@@ -22,7 +22,7 @@ export function fetchListOfMessages() {
     } else {
       // If something went wrong, update message in store
       dispatch({
-        type: types.TOKEN_FETCH_FAILED,
+        type: types.MESSAGES_FETCH_FAILED,
         errorMessage: resp.error
       });
     }
