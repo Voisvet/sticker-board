@@ -20,11 +20,26 @@ export function fetchTokenFromCookies() {
 
 export function fetchTokenFromServer(login, password) {
   return async(dispatch, getState) => {
-    const token = await api.login(login, password);
-    // ToDo: Set cookie
+    // Notify that fetch started
     dispatch({
-      type: types.TOKEN_FETCHED,
-      token
+      type: types.TOKEN_FETCH_STARTED
     });
+
+    // Send request to a server
+    const resp = await api.login(login, password);
+    if (resp.status_code == 0) {
+      // If all is alright, set cookies and update token in store
+      Cookies.set('user-token', resp.token);
+      dispatch({
+        type: types.TOKEN_FETCHED,
+        token: resp.token
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.TOKEN_FETCH_FAILED,
+        errorMessage: resp.error
+      });
+    }
   };
 }

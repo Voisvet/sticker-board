@@ -3,7 +3,9 @@ import * as types from './actionTypes.js';
 // Initialization of this part of store
 
 const initialState = {
-  token: undefined
+  token: undefined,
+  errorMessage: undefined,
+  fetchingInProgress: false
 };
 
 // Reducer for this part of store
@@ -14,7 +16,18 @@ export default function reduce(state = initialState, action = {}) {
       return {
         ...state,
         token: action.token,
-        test: 'aaa'
+        fetchingInProgress: false
+      };
+    case types.TOKEN_FETCH_STARTED:
+      return {
+        ...state,
+        fetchingInProgress: true
+      };
+    case types.TOKEN_FETCH_FAILED:
+      return {
+        ...state,
+        fetchingInProgress: false,
+        errorMessage: action.errorMessage
       };
     default:
       return state;
@@ -25,4 +38,12 @@ export default function reduce(state = initialState, action = {}) {
 
 export function getUserToken(state) {
   return state.user.token;
+}
+
+export function getFetchingState(state) {
+  return state.user.fetchingInProgress;
+}
+
+export function getErrorMessage(state) {
+  return state.user.errorMessage;
 }
