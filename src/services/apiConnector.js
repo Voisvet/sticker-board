@@ -8,12 +8,11 @@ class ApiConnector {
         params: { login, password }
       });
       if (response.status == 200) {
-        return response.data.token;
+        return response.data;
       }
     } catch (err) {
       console.error(err);
     }
-
   }
 }
 
