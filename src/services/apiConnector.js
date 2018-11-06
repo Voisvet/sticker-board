@@ -134,3 +134,38 @@ export async function getListOfImages(token, mode=0, amount=undefined, page=unde
     console.error(err);
   }
 }
+
+// Implementation of /logout
+// Invalidates token on the server side
+// Required fields - token
+// Optional fields - none
+export async function logout(token) {
+  // Request URL
+  const url = BACKEND_URL + '/logout';
+  // Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
