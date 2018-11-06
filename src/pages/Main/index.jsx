@@ -52,7 +52,7 @@ const styles = {
     marginRight: 20,
   },
   body: {
-    margin: '16px',
+    padding: '16px',
   },
 };
 
@@ -74,6 +74,10 @@ class Main extends React.Component {
     }
   }
 
+  backArrowOnClickHandler = () => {
+    this.props.history.goBack();
+  };
+
   render() {
     if (!this.props.token) {
       return <Redirect to="/" />;
@@ -81,39 +85,18 @@ class Main extends React.Component {
 
     const { classes } = this.props;
 
-    // Parse URL
-    let url = new URL(window.location.href);
-
-    // Render back button if url is not root url
-    let backArrow = url.pathname == '/app' ? '' : (
-      <IconButton
-      className={classes.menuButton}
-      onClick={ () => this.props.history.goBack() }
-      color="inherit"
-      aria-label="Back"
-      >
-      <ArrowBackIcon />
-      </IconButton>
-    );
-
-    // Render all the other buttons
-    let buttons = (
-      <Switch>
-        <Route exact path='/app' component={MainAppBarButtons} />
-        <Route exact path='/app/admins' component={ListAdminAppBarButtons} />
-        <Route exact path='/app/messages' component={ListMessageAppBarButtons} />
-      </Switch>
-    );
-
     return (
       <div className={classes.app}>
         <AppBar position="static">
           <Toolbar>
-            { backArrow }
+            <BackArrow
+              clickHandler={ this.backArrowOnClickHandler }
+              styleClass={ classes.menuButton }
+            />
             <Typography variant="h6" color="inherit" className={classes.grow}>
               TG Bot CP
             </Typography>
-            {buttons}
+            <AppBarButtons />
           </Toolbar>
         </AppBar>
         <div className={classes.body}>
@@ -133,6 +116,41 @@ class Main extends React.Component {
       </div>
     );
   };
+}
+
+// --------------------------------------------------
+//
+//  Sub-components section
+//
+// --------------------------------------------------
+
+const BackArrow = (props) => {
+  const { classes } = props;
+
+  // Parse URL
+  let url = new URL(window.location.href);
+
+  // Render back button if url is not root url
+  return url.pathname == '/app' ? '' : (
+    <IconButton
+    className={props.styleClass}
+    onClick={ () => props.clickHandler() }
+    color="inherit"
+    aria-label="Back"
+    >
+    <ArrowBackIcon />
+    </IconButton>
+  );
+}
+
+const AppBarButtons = (props) => {
+  return  (
+    <Switch>
+      <Route exact path='/app' component={MainAppBarButtons} />
+      <Route exact path='/app/admins' component={ListAdminAppBarButtons} />
+      <Route exact path='/app/messages' component={ListMessageAppBarButtons} />
+    </Switch>
+  );
 }
 
 // --------------------------------------------------
