@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import api from '../../services/apiConnector';
 
 import * as types from './actionTypes';
-import * as selectors from './reducer';
 
 export function fetchTokenFromCookies() {
   return (dispatch, getState) => {

@@ -1,7 +1,6 @@
 import api from '../../services/apiConnector';
 
 import * as types from './actionTypes';
-import * as selectors from './reducer';
 
 export function fetchListOfImages() {
   return async(dispatch, getState) => {

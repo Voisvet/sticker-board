@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../../store/rekognition/actions';
 import * as selectors from '../../../store/rekognition/reducer';
 
 const ListImagePage = (props) => {

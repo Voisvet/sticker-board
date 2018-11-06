@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import * as actions from '../../../store/admins/actions';
 import * as selectors from '../../../store/admins/reducer';
 
 const ListAdminPage = (props) => {

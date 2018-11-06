@@ -1,7 +1,6 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';

@@ -1,7 +1,6 @@
 import api from '../../services/apiConnector';
 
 import * as types from './actionTypes';
-import * as selectors from './reducer';
 
 export function fetchListOfAdmins() {
   return async(dispatch, getState) => {
