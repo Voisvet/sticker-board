@@ -29,6 +29,16 @@ export default function reduce(state = initialState, action = {}) {
         fetchingInProgress: false,
         errorMessage: action.errorMessage
       };
+    case types.TOKEN_INVALIDATED:
+      return {
+        ...state,
+        token: undefined
+      };
+    case types.TOKEN_INVALIDATION_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }

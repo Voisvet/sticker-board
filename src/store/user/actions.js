@@ -41,3 +41,23 @@ export function fetchTokenFromServer(login, password) {
     }
   };
 }
+
+export function invalidateToken() {
+  return async(dispatch, getState) => {
+    // Request token invalidation
+    const resp = await api.logout(getState().user.token);
+    if (resp.status_code == 0) {
+      // If all is alright, delete cookie and update store
+      Cookies.remove('user-token');
+      dispatch({
+        type: types.TOKEN_INVALIDATED
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.TOKEN_INVALIDATION_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}
