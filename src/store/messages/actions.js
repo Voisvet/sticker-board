@@ -1,4 +1,4 @@
-import api from '../../services/apiConnector';
+import * as api from '../../services/apiConnector';
 
 import * as types from './actionTypes';
 
