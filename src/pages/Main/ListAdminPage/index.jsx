@@ -7,26 +7,44 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 
 import * as selectors from '../../../store/admins/reducer';
 
-const ListAdminPage = (props) => {
-  let admins = props.list ?
-      props.list.map(admin => {
-        return (
-          <TableRow key={admin.id}>
-            <TableCell>{admin.id}</TableCell>
-            <TableCell>{admin.name}</TableCell>
-            <TableCell>{admin.email}</TableCell>
-            <TableCell>{admin.access_rights}</TableCell>
-          </TableRow>
-        );
-      }) : '';
+class ListAdminPage extends React.Component {
+  state = {
+    rowsPerPage: 10,
+    page: 0
+  }
 
-  return (
-    <div>
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
+  };
+
+  render() {
+    const { page, rowsPerPage } = this.state;
+
+    let admins = this.props.list ?
+        this.props.list
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map(admin => {
+            return (
+              <TableRow hover key={admin.id}>
+                <TableCell>{admin.id}</TableCell>
+                <TableCell>{admin.name}</TableCell>
+                <TableCell>{admin.email}</TableCell>
+                <TableCell>{admin.access_rights}</TableCell>
+              </TableRow>
+            );
+          }) : '';
+
+    return (
       <div>
-        {props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
+        {this.props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
         <Table>
           <TableHead>
             <TableRow>
@@ -40,10 +58,20 @@ const ListAdminPage = (props) => {
             {admins}
           </TableBody>
         </Table>
+        <TablePagination
+          component="div"
+          count={this.props.list.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          backIconButtonProps={{'aria-label': 'Previous Page'}}
+          nextIconButtonProps={{'aria-label': 'Next Page'}}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+        />
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
