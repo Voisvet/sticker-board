@@ -11,7 +11,7 @@ function srcPath(subdir) {
 
 module.exports = {
     mode: "development",
-    entry: ["./src"],
+    entry: ["babel-polyfill", "./src"],
     output: {
         path: outputDirectory,
         filename: "[name].js",

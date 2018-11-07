@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+
+import * as actions from '../../store/user/actions';
 
 const AppBarButtons = (props) => {
   return (
@@ -14,11 +17,14 @@ const AppBarButtons = (props) => {
       <Link to='/app/admins' style={{color: 'white'}}>
         <Button color="inherit">Admins</Button>
       </Link>
-      <Link to='/' style={{color: 'white'}}>
-        <Button color="inherit">Logout</Button>
-      </Link>
+      <Button
+          color="inherit"
+          onClick={() => props.dispatch(actions.invalidateToken())}
+      >
+        Logout
+      </Button>
     </div>
   );
 };
 
-export default AppBarButtons;
+export default connect()(AppBarButtons);
