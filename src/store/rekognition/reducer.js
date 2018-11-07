@@ -3,7 +3,7 @@ import * as types from './actionTypes';
 // Initialization of this part of store
 
 const initialState = {
-  list: undefined,
+  list: [],
   errorMessage: undefined,
   fetchingInProgress: false
 };
