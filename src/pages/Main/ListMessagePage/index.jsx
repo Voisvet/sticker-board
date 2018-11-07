@@ -9,8 +9,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Chip from '@material-ui/core/Chip';
+import { withStyles } from '@material-ui/core/styles';
 
 import * as selectors from '../../../store/messages/reducer';
+
+const styles = theme => ({
+  chip: {
+    marginRight: theme.spacing.unit
+  }
+});
 
 class ListMessagePage extends React.Component {
   state = {
@@ -27,12 +34,28 @@ class ListMessagePage extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     const { page, rowsPerPage } = this.state;
 
     let messages = this.props.list.length > 0 ?
         this.props.list
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .map(mess => {
+            let chatsChips = mess.chats.slice(0, 3).map(chat => {
+              return (<Chip
+                key={chat}
+                color="primary"
+                label={chat}
+                className={classes.chip}
+                />);
+            });
+
+            let moreChip = mess.chats.length > 3 ? (<Chip
+                
+                label="..."
+                className={classes.chip}
+                />) : '';
+
             return (
               <TableRow key={mess.id + Math.random()} hover>
                 <TableCell>{mess.id}</TableCell>
@@ -40,11 +63,8 @@ class ListMessagePage extends React.Component {
                 <TableCell>{new Date(mess.closest_date).toLocaleString("ru")}</TableCell>
                 <TableCell>{mess.payload_type}</TableCell>
                 <TableCell>
-                {
-                  mess.chats.map(chat => {
-                    return (<Chip color="primary" label={chat}/>);
-                  })
-                }
+                { chatsChips }
+                { moreChip }
                 </TableCell>
               </TableRow>
             );
@@ -96,4 +116,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ListMessagePage);
+const styledListMessagePage = withStyles(styles)(ListMessagePage)
+export default connect(mapStateToProps)(styledListMessagePage);
