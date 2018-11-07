@@ -13,11 +13,27 @@ import { withStyles } from '@material-ui/core/styles';
 
 import * as selectors from '../../../store/messages/reducer';
 
+// --------------------------------------------------
+//
+//  Styles section
+//
+// --------------------------------------------------
+
 const styles = theme => ({
   chip: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
+    cursor: "pointer"
+  },
+  tableRowLink: {
+    cursor: "pointer"
   }
 });
+
+// --------------------------------------------------
+//
+//  Main component
+//
+// --------------------------------------------------
 
 class ListMessagePage extends React.Component {
   state = {
@@ -33,48 +49,13 @@ class ListMessagePage extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleRowClick = (event, url) => {
+    this.props.history.push(url);
+  }
+
   render() {
     const { classes } = this.props;
     const { page, rowsPerPage } = this.state;
-
-    let messages = this.props.list.length > 0 ?
-        this.props.list
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map(mess => {
-            let chatsChips = mess.chats.slice(0, 3).map(chat => {
-              return (<Chip
-                key={chat}
-                color="primary"
-                label={chat}
-                className={classes.chip}
-                />);
-            });
-
-            let moreChip = mess.chats.length > 3 ? (<Chip
-                
-                label="..."
-                className={classes.chip}
-                />) : '';
-
-            return (
-              <TableRow key={mess.id + Math.random()} hover>
-                <TableCell>{mess.id}</TableCell>
-                <TableCell>{mess.type}</TableCell>
-                <TableCell>{new Date(mess.closest_date).toLocaleString("ru")}</TableCell>
-                <TableCell>{mess.payload_type}</TableCell>
-                <TableCell>
-                { chatsChips }
-                { moreChip }
-                </TableCell>
-              </TableRow>
-            );
-          }) : (
-            <TableRow>
-              <TableCell>
-                You do not have any messages :(
-              </TableCell>
-            </TableRow>
-          );
 
     return (
       <div>
@@ -89,9 +70,13 @@ class ListMessagePage extends React.Component {
               <TableCell>Chats</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {messages}
-          </TableBody>
+          <TableBodyWithMessages
+            list={this.props.list}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            classes={classes}
+            clickHandler={this.handleRowClick}
+          />
         </Table>
         <TablePagination
           component="div"
@@ -107,6 +92,89 @@ class ListMessagePage extends React.Component {
     );
   }
 }
+
+// --------------------------------------------------
+//
+//  Additional components
+//
+// --------------------------------------------------
+
+// Table body with rows with onClick handler that links to other page
+const TableBodyWithMessages = (props) => {
+  // Unpack all the things that we need
+  const { page, rowsPerPage, classes, clickHandler } = props;
+
+  if (props.list.length > 0) {
+    return (
+      <TableBody>
+      { props.list
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map(mess => {
+          return (
+            <TableRow
+              key={mess.id}
+              hover
+              className={classes.tableRowLink}
+              onClick={(event) => {
+                clickHandler(event, '/app/messages/info/' + mess.id)
+              }}
+            >
+              <TableCell>{mess.id}</TableCell>
+              <TableCell>{mess.type}</TableCell>
+              <TableCell>{new Date(mess.closest_date).toLocaleString("ru")}</TableCell>
+              <TableCell>{mess.payload_type}</TableCell>
+              <TableCell>
+                <ChatsChips chats={mess.chats} classes={classes}/>
+              </TableCell>
+            </TableRow>
+          );
+        }) }
+      </TableBody>
+    );
+  } else {
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={5}>
+            You do not have any messages :(
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+  }
+};
+
+// Just list of chips for beautiful displaying of list of chats
+const ChatsChips = (props) => {
+  // Display three first chats
+  let chatsChips = props.chats.slice(0, 3).map(chat => {
+    return (<Chip
+      key={chat}
+      color="primary"
+      label={chat}
+      className={props.classes.chip}
+      />);
+  });
+
+  // If we have more than three chats, then display someting like "more" chip
+  if (props.chats.length > 3) {
+    chatsChips.push(
+      <Chip
+      key="_others"
+      label="..."
+      className={props.classes.chip}
+      />
+    )
+  }
+
+  return chatsChips;
+};
+
+// --------------------------------------------------
+//
+//  Connection and export section
+//
+// --------------------------------------------------
 
 const mapStateToProps = (state) => {
   return {
