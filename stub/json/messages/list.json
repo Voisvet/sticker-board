@@ -5,16 +5,21 @@
     {
       "id": 0,
       "type": "scheduled",
-      "date": 1540819161661,
-      "days_of_week": [],
-      "payload_type": "message"
+      "closest_date": 1540819161661,
+      "payload_type": "message",
+      "chats": [
+         "this_is_chat_id"
+      ]
     },
     {
       "id": 1,
       "type": "periodic",
-      "date": 0,
-      "days_of_week": ["wed"],
-      "payload_type": "sticker"
+      "closest_date": 1540879131661,
+      "payload_type": "sticker",
+      "chats": [
+         "this_is_chat_id",
+         "this_is_another_chat_id"
+      ]
     }
   ]
 }

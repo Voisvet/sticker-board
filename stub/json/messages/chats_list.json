@@ -1,0 +1,14 @@
+{
+  "status_code": 0,
+  "error": "",
+  "list": [
+    {
+      "id": "this_is_chat_id",
+      "name": "Bach 3 SE"
+    },
+    {
+      "id": "this_is_another_chat_id",
+      "name": "Innopolis University"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+   "type": "periodical",
+   "date": 0,
+   "periods": [
+      {
+         "month": 0,
+         "day": 0,
+         "day_of_week": 0,
+         "hour": 0,
+         "minute":0
+      }
+   ],
+   "chats": [
+      "this_is_chat_id",
+      "this_is_another_chat_id"
+   ]
+}

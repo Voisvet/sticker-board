@@ -75,6 +75,34 @@ stubs.post('/messages/create', (req, res, next) => {
   res.send(response);
 });
 
+stubs.get('/messages/chats_list', (req, res, next) => {
+  response = fs.readFileSync(path.join(__dirname, './json/messages/chats_list.json'));
+  res.send(response);
+});
+
+stubs.get('/messages/info/:id', (req, res, next) => {
+  try {
+    fileName = req.params.id + '.json'
+    response = fs.readFileSync(path.join(__dirname, './json/messages/info', fileName));
+  } catch (err) {
+    response = fs.readFileSync(path.join(__dirname, './json/id_not_found.json'));
+  }
+  res.send(response);
+});
+
+stubs.put('/messages/info/:id', (req, res, next) => {
+  try {
+    // Stupid check that this id exists
+    fileName = req.params.id + '.json'
+    response = fs.readFileSync(path.join(__dirname, './json/messages/info', fileName));
+    // Read actual response content
+    response = fs.readFileSync(path.join(__dirname, './json/messages/info.json'));
+  } catch (err) {
+    response = fs.readFileSync(path.join(__dirname, './json/id_not_found.json'));
+  }
+  res.send(response);
+});
+
 stubs.get('/messages/payload/:id', (req, res, next) => {
   try {
     fileName = req.params.id + '.json'
