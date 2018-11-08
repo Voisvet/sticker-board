@@ -54,15 +54,8 @@ class ListMessagePage extends React.Component {
   }
 
   render() {
-    const { chats, classes } = this.props;
+    const { mapChatIdToName, classes } = this.props;
     const { page, rowsPerPage } = this.state;
-    let chatsMapping = undefined;
-    if (chats) {
-      chatsMapping = {};
-      for (let i = 0; i < chats.length; i++) {
-        chatsMapping[chats[i].id] = chats[i].name;
-      }
-    }
 
     return (
       <div>
@@ -83,7 +76,7 @@ class ListMessagePage extends React.Component {
             rowsPerPage={rowsPerPage}
             classes={classes}
             clickHandler={this.handleRowClick}
-            chatsMapping={chatsMapping}
+            chatsMapping={mapChatIdToName}
           />
         </Table>
         <TablePagination
@@ -193,7 +186,7 @@ const mapStateToProps = (state) => {
     list: selectors.getListOfMessages(state),
     fetchingInProgress: selectors.getFetchingState(state),
     errorMessage: selectors.getErrorMessage(state),
-    chats: selectors.getListOfChats(state)
+    mapChatIdToName: selectors.getChatIdToNameMapping(state)
   };
 };
 

@@ -64,3 +64,15 @@ export function getErrorMessage(state) {
 export function getListOfChats(state) {
   return state.messages.chats;
 }
+
+export function getChatIdToNameMapping(state) {
+  const chats = state.messages.chats;
+  let chatsMapping = undefined;
+  if (chats) {
+    chatsMapping = {};
+    for (let i = 0; i < chats.length; i++) {
+      chatsMapping[chats[i].id] = chats[i].name;
+    }
+  }
+  return chatsMapping;
+}
