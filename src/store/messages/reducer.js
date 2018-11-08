@@ -4,6 +4,7 @@ import * as types from './actionTypes';
 
 const initialState = {
   list: [],
+  chats: undefined,
   errorMessage: undefined,
   fetchingInProgress: false
 };
@@ -31,6 +32,16 @@ export default function reduce(state = initialState, action = {}) {
         fetchingInProgress: false,
         errorMessage: action.errorMessage
       };
+    case types.CHATS_LIST_FETCHED:
+      return {
+        ...state,
+        chats: action.list
+      };
+    case types.CHATS_LIST_FETCH_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }
@@ -48,4 +59,8 @@ export function getFetchingState(state) {
 
 export function getErrorMessage(state) {
   return state.messages.errorMessage;
+}
+
+export function getListOfChats(state) {
+  return state.messages.chats;
 }

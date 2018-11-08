@@ -169,3 +169,39 @@ export async function logout(token) {
     console.error(err);
   }
 }
+
+// Implementation of /messages/chats_list request
+// Returns list of chats with their ids
+// Required fields - token
+// Optional fields - none
+export async function getListOfChats(token) {
+  // Request url
+  const url = BACKEND_URL + '/messages/chats_list';
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
