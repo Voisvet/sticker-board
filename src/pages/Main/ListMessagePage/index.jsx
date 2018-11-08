@@ -54,8 +54,15 @@ class ListMessagePage extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { chats, classes } = this.props;
     const { page, rowsPerPage } = this.state;
+    let chatsMapping = undefined;
+    if (chats) {
+      chatsMapping = {};
+      for (let i = 0; i < chats.length; i++) {
+        chatsMapping[chats[i].id] = chats[i].name;
+      }
+    }
 
     return (
       <div>
@@ -76,6 +83,7 @@ class ListMessagePage extends React.Component {
             rowsPerPage={rowsPerPage}
             classes={classes}
             clickHandler={this.handleRowClick}
+            chatsMapping={chatsMapping}
           />
         </Table>
         <TablePagination
@@ -102,7 +110,7 @@ class ListMessagePage extends React.Component {
 // Table body with rows with onClick handler that links to other page
 const TableBodyWithMessages = (props) => {
   // Unpack all the things that we need
-  const { page, rowsPerPage, classes, clickHandler } = props;
+  const { page, rowsPerPage, classes, clickHandler, chatsMapping } = props;
 
   if (props.list.length > 0) {
     return (
@@ -110,6 +118,10 @@ const TableBodyWithMessages = (props) => {
       { props.list
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map(mess => {
+          let chats = mess.chats;
+          if (chatsMapping) {
+            chats = mess.chats.map(chat => chatsMapping[chat]);
+          }
           return (
             <TableRow
               key={mess.id}
@@ -124,7 +136,7 @@ const TableBodyWithMessages = (props) => {
               <TableCell>{new Date(mess.closest_date).toLocaleString("ru")}</TableCell>
               <TableCell>{mess.payload_type}</TableCell>
               <TableCell>
-                <ChatsChips chats={mess.chats} classes={classes}/>
+                <ChatsChips chats={chats} classes={classes}/>
               </TableCell>
             </TableRow>
           );
@@ -180,7 +192,8 @@ const mapStateToProps = (state) => {
   return {
     list: selectors.getListOfMessages(state),
     fetchingInProgress: selectors.getFetchingState(state),
-    errorMessage: selectors.getErrorMessage(state)
+    errorMessage: selectors.getErrorMessage(state),
+    chats: selectors.getListOfChats(state)
   };
 };
 

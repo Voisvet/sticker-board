@@ -71,6 +71,7 @@ class Main extends React.Component {
       props.dispatch(adminsActions.fetchListOfAdmins());
       props.dispatch(messagesActions.fetchListOfMessages());
       props.dispatch(imagesActions.fetchListOfImages());
+      props.dispatch(messagesActions.fetchListOfChats());
     }
   }
 
