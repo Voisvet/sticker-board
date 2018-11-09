@@ -103,6 +103,13 @@ stubs.put('/messages/info/:id', (req, res, next) => {
   res.send(response);
 });
 
+stubs.delete('/messages/info/:id', (req, res, next) => {
+  res.send(JSON.stringify({
+    "status_code": 0,
+    "error": ""
+  }));
+});
+
 stubs.get('/messages/payload/:id', (req, res, next) => {
   try {
     fileName = req.params.id + '.json'
