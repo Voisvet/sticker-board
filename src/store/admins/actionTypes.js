@@ -5,3 +5,5 @@ export const ADMIN_CREATED = 'admins.ADMIN_CREATED';
 export const ADMIN_CREATION_FAILED = 'admins.ADMIN_CREATION_FAILED';
 export const ADMIN_DELETED = 'admins.ADMIN_DELETED';
 export const ADMIN_DELETION_FAILED = 'admins.ADMIN_DELETION_FAILED';
+export const ADMIN_EDITED = 'admins.ADMIN_EDITED';
+export const ADMIN_EDITING_FAILED = 'admins.ADMIN_EDITING_FAILED';

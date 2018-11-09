@@ -87,3 +87,46 @@ export function deleteAdminWithId(id) {
     }
   };
 }
+
+export function editAdminWithId(id, form_data) {
+  return async(dispatch, getState) => {
+
+    const token = getState().user.token;
+    // Send request to server
+
+    let access_rights = form_data.access_rights;
+    if (access_rights !== -1) {
+      access_rights = 0
+      + (form_data.access_lvl_one ? 1 : 0)
+      + (form_data.access_lvl_two ? 2 : 0)
+      + (form_data.access_lvl_three ? 4 : 0);
+    }
+
+    const admin = {
+      name: form_data.name,
+      email: form_data.email,
+      access_rights
+    }
+
+    if (form_data.password !== '') {
+      admin.password = form_data.password;
+    }
+
+    const resp = await api.editAdmin(token, id, admin);
+    if (resp.status_code == 0) {
+      // If all is alright, update admins lsit in store
+
+      dispatch({
+        type: types.ADMIN_EDITED,
+        admin,
+        id
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.ADMIN_EDITING_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}

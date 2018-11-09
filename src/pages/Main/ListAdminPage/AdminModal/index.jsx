@@ -56,14 +56,25 @@ const styles = theme => ({
 // --------------------------------------------------
 
 class AdminModal extends React.Component {
-  state = {
-    name: '',
-    email: '',
-    password: '',
-    access_lvl_one: false,
-    access_lvl_two: false,
-    access_lvl_three: false
+  constructor(props) {
+    super(props);
+    if (props.oldAdmin) {
+      this.state = {
+        ...props.oldAdmin,
+        password: ''
+      };
+    } else {
+      this.state = {
+        name: '',
+        email: '',
+        password: '',
+        access_lvl_one: false,
+        access_lvl_two: false,
+        access_lvl_three: false
+      };
+    }
   }
+
 
   handleNameChange = (event) => {
     this.setState({name: event.target.value});

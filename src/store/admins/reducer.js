@@ -53,6 +53,19 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         errorMessage: action.errorMessage
       };
+    case types.ADMIN_EDITED:
+      const editedAdmin = state.list.findIndex(admin => admin.id === action.id);
+      const newList = state.list.slice();
+      newList[editedAdmin] = { ...action.admin, id: action.id };
+      return {
+        ...state,
+        list: newList
+      };
+    case types.ADMIN_EDITING_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }

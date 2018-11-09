@@ -30,7 +30,8 @@ class ListAdminPage extends React.Component {
     rowsPerPage: 10,
     page: 0,
     modalIsOpen: false,
-    checked: -1
+    checked: -1,
+    adminToEdit: undefined
   }
 
   handleChangePage = (event, page) => {
@@ -58,7 +59,17 @@ class ListAdminPage extends React.Component {
   };
 
   handleEditClick = (row) => {
-    this.setState({modalIsOpen: true});
+    let adminToEdit = {...this.props.list[row]};
+    adminToEdit = {
+      ...adminToEdit,
+      access_lvl_one: rightsToBoolMapping[adminToEdit.access_rights][0],
+      access_lvl_two: rightsToBoolMapping[adminToEdit.access_rights][1],
+      access_lvl_three: rightsToBoolMapping[adminToEdit.access_rights][2]
+    }
+    this.setState({
+      modalIsOpen: true,
+      adminToEdit: adminToEdit
+    });
   };
 
   handleDeleteClick = (row) => {
@@ -67,8 +78,17 @@ class ListAdminPage extends React.Component {
   };
 
   handleFormSubmit = (values) => {
-    this.setState({modalIsOpen: false});
-    this.props.dispatch(actions.createNewAdmin(values));
+    if (this.state.adminToEdit) {
+      values.access_rights = this.state.adminToEdit.access_rights;
+      this.setState({
+        modalIsOpen: false,
+        adminToEdit: undefined
+      });
+      this.props.dispatch(actions.editAdminWithId(values.id, values));
+    } else {
+      this.setState({modalIsOpen: false});
+      this.props.dispatch(actions.createNewAdmin(values));
+    }
   };
 
   render() {
@@ -86,7 +106,7 @@ class ListAdminPage extends React.Component {
                 <TableCell>{admin.id}</TableCell>
                 <TableCell>{admin.name}</TableCell>
                 <TableCell>{admin.email}</TableCell>
-                <TableCell>{rightsMapping[admin.access_rights].join(', ')}</TableCell>
+                <TableCell>{rightsToStringMapping[admin.access_rights].join(', ')}</TableCell>
               </TableRow>
             );
           }) : '';
@@ -127,6 +147,7 @@ class ListAdminPage extends React.Component {
         { this.state.modalIsOpen ? (
           <AdminModal
             open={this.state.modalIsOpen}
+            oldAdmin={this.state.adminToEdit}
             closeHandler={this.handleModalClose}
             submitHandler={this.handleFormSubmit}
           />
@@ -203,7 +224,7 @@ const TableToolbar = props => {
 
 const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
 
-const rightsMapping = {
+const rightsToStringMapping = {
   0: ["Only observe"],
   1: ["Manage admins"],
   2: ["Manage scheduled messages"],
@@ -213,7 +234,20 @@ const rightsMapping = {
   6: ["Manage scheduled messages", "Manage periodical messages"],
   7: ["Manage admins", "Manage scheduled messages", "Manage periodical messages"]
 }
-rightsMapping[-1] = ["Superuser"];
+rightsToStringMapping[-1] = ["Superuser"];
+
+const rightsToBoolMapping = {
+  0: [false, false, false],
+  1: [true, false, false],
+  2: [false, true, false],
+  3: [true, true, false],
+  4: [false, false, true],
+  5: [true, false, true],
+  6: [false, true, true],
+  7: [true, true, true]
+}
+rightsToBoolMapping[-1] = [true, true, true];
+
 
 const mapStateToProps = (state) => {
   return {
