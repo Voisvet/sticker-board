@@ -1,6 +1,10 @@
 import * as types from './actionTypes';
 
-// Initialization of this part of store
+// --------------------------------------------------
+//
+//  Initial state of this part
+//
+// --------------------------------------------------
 
 const initialState = {
   list: [],
@@ -8,7 +12,11 @@ const initialState = {
   fetchingInProgress: false
 };
 
-// Reducer for this part of store
+// --------------------------------------------------
+//
+//  Reducer for this part
+//
+// --------------------------------------------------
 
 export default function reduce(state = initialState, action = {}) {
   switch (action.type) {
@@ -36,7 +44,11 @@ export default function reduce(state = initialState, action = {}) {
   }
 }
 
-// Selectors for this part of store
+// --------------------------------------------------
+//
+//  Selectors for this part
+//
+// --------------------------------------------------
 
 export function getListOfImages(state) {
   return state.rekognition.list;

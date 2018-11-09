@@ -1,7 +1,8 @@
 import * as api from '../../services/apiConnector';
-
 import * as types from './actionTypes';
 
+// Fetch list of images from server
+// And save it in redux store
 export function fetchListOfImages() {
   return async(dispatch, getState) => {
     // Notify that fetch started

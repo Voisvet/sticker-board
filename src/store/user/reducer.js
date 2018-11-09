@@ -1,6 +1,10 @@
 import * as types from './actionTypes.js';
 
-// Initialization of this part of store
+// --------------------------------------------------
+//
+//  Initial state of this part
+//
+// --------------------------------------------------
 
 const initialState = {
   token: undefined,
@@ -8,7 +12,11 @@ const initialState = {
   fetchingInProgress: false
 };
 
-// Reducer for this part of store
+// --------------------------------------------------
+//
+//  Reducer for this part
+//
+// --------------------------------------------------
 
 export default function reduce(state = initialState, action = {}) {
   switch (action.type) {
@@ -34,17 +42,16 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         token: undefined
       };
-    case types.TOKEN_INVALIDATION_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
-      };
     default:
       return state;
   }
 }
 
-// Selectors for this part of store
+// --------------------------------------------------
+//
+//  Selectors for this part
+//
+// --------------------------------------------------
 
 export function getUserToken(state) {
   return state.user.token;

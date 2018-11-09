@@ -10,11 +10,30 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 import * as selectors from '../../../store/rekognition/reducer';
 
+// --------------------------------------------------
+//
+//  Main component section
+//
+// --------------------------------------------------
+
 class ListImagePage extends React.Component {
+
+  // ------------------------------
+  //
+  //  State initialization
+  //
+  // ------------------------------
+
   state = {
     rowsPerPage: 10,
     page: 0
   }
+
+  // ------------------------------
+  //
+  //  Handlers
+  //
+  // ------------------------------
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -24,21 +43,14 @@ class ListImagePage extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  // ------------------------------
+  //
+  //  Render function
+  //
+  // ------------------------------
+
   render() {
     const { page, rowsPerPage } = this.state;
-
-    let images = this.props.list ?
-        this.props.list
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map(image => {
-            return (
-              <TableRow key={image.id}>
-                <TableCell>{image.id}</TableCell>
-                <TableCell>{image.entities[0].name}</TableCell>
-                <TableCell>{image.entities[0].confidence}</TableCell>
-              </TableRow>
-            );
-          }) : '';
 
     return (
       <div>
@@ -52,7 +64,11 @@ class ListImagePage extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {images}
+            <ImagesList
+              list={this.props.list}
+              page={page}
+              rowsPerPage={rowsPerPage}
+            />
           </TableBody>
         </Table>
         <TablePagination
@@ -69,6 +85,33 @@ class ListImagePage extends React.Component {
     );
   }
 }
+
+// --------------------------------------------------
+//
+//  Sub-component section
+//
+// --------------------------------------------------
+
+const ImagesList = (props) => {
+  const {list, page, rowsPerPage} = props;
+  return list ? list
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map(image => {
+          return (
+            <TableRow key={image.id}>
+              <TableCell>{image.id}</TableCell>
+              <TableCell>{image.entities[0].name}</TableCell>
+              <TableCell>{image.entities[0].confidence}</TableCell>
+            </TableRow>
+          );
+        }) : '';
+};
+
+// --------------------------------------------------
+//
+//  Composing and export section
+//
+// --------------------------------------------------
 
 const mapStateToProps = (state) => {
   return {

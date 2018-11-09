@@ -9,8 +9,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
-import * as selectors from '../../../../store/messages/reducer';
-
 // --------------------------------------------------
 //
 //  Styles section
@@ -56,6 +54,14 @@ const styles = theme => ({
 // --------------------------------------------------
 
 class AdminModal extends React.Component {
+
+  // ------------------------------
+  //
+  //  Constructor overriding
+  //  and state initialization
+  //
+  // ------------------------------
+
   constructor(props) {
     super(props);
     if (props.oldAdmin) {
@@ -75,6 +81,11 @@ class AdminModal extends React.Component {
     }
   }
 
+  // ------------------------------
+  //
+  //  Handlers
+  //
+  // ------------------------------
 
   handleNameChange = (event) => {
     this.setState({name: event.target.value});
@@ -100,6 +111,12 @@ class AdminModal extends React.Component {
     this.setState({access_lvl_three: !this.state.access_lvl_three});
   };
 
+  // ------------------------------
+  //
+  //  Rendering
+  //
+  // ------------------------------
+
   render() {
     const { open, classes, closeHandler, submitHandler } = this.props;
 
@@ -112,31 +129,63 @@ class AdminModal extends React.Component {
           elevation={5}
           className={classes.paper}
         >
-          <Typography variant="h5" className={classes.title}>Add new admin</Typography>
+          <Typography variant="h5" className={classes.title}>
+            Add new admin
+          </Typography>
           <form>
             <div className={classes.formEntryContainer}>
-              <TextField value={this.state.name} onChange={this.handleNameChange} name="name" className={classes.formEntry} label="Name" />
+              <TextField
+                value={this.state.name}
+                onChange={this.handleNameChange}
+                name="name"
+                className={classes.formEntry}
+                label="Name"
+              />
             </div>
             <div className={classes.formEntryContainer}>
-              <TextField value={this.state.email} onChange={this.handleEmailChange} name="email" className={classes.formEntry} label="Email"/>
+              <TextField
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+                name="email"
+                className={classes.formEntry}
+                label="Email"
+              />
             </div>
             <div className={classes.formEntryContainer}>
-              <TextField value={this.state.password} onChange={this.handlePasswordChange} name="password" className={classes.formEntry} label="Password" type="password" />
+              <TextField
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+                name="password"
+                className={classes.formEntry}
+                label="Password"
+                type="password"
+              />
             </div>
             <div onClick={this.handleAccessLvlOneChange}>
               <Checkbox checked={this.state.access_lvl_one} />
-              <Typography className={classes.checkboxLabel}>Can manage administrators</Typography>
+              <Typography className={classes.checkboxLabel}>
+                Can manage administrators
+              </Typography>
             </div>
             <div onClick={this.handleAccessLvlTwoChange}>
               <Checkbox checked={this.state.access_lvl_two}/>
-              <Typography className={classes.checkboxLabel}>Can manage scheduled messages</Typography>
+              <Typography className={classes.checkboxLabel}>
+                Can manage scheduled messages
+              </Typography>
             </div>
             <div onClick={this.handleAccessLvlThreeChange}>
               <Checkbox checked={this.state.access_lvl_three}/>
-              <Typography className={classes.checkboxLabel}>Can manage periodic messages</Typography>
+              <Typography className={classes.checkboxLabel}>
+                Can manage periodic messages
+              </Typography>
             </div>
             <div className={classes.formEntryContainer}>
-              <Button variant="contained" color="primary" className={classes.button} onClick={() => submitHandler(this.state)}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => submitHandler(this.state)}
+              >
                 Save
               </Button>
             </div>

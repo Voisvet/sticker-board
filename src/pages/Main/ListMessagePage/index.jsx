@@ -27,6 +27,7 @@ import * as actions from '../../../store/messages/actions';
 //
 // --------------------------------------------------
 
+// Styles for main component
 const styles = theme => ({
   chip: {
     marginRight: theme.spacing.unit,
@@ -37,18 +38,47 @@ const styles = theme => ({
   }
 });
 
+// Table toolbar styles
+const toolbarStyles = theme => ({
+  root: {
+    paddingRight: theme.spacing.unit,
+  },
+  actions: {
+    color: theme.palette.text.secondary,
+  },
+  title: {
+    flexGrow: 1
+  },
+  button: {
+    display: "inline-block"
+  }
+});
+
 // --------------------------------------------------
 //
-//  Main component
+//  Main component section
 //
 // --------------------------------------------------
 
 class ListMessagePage extends React.Component {
+
+  // ------------------------------
+  //
+  //  State definition
+  //
+  // ------------------------------
+
   state = {
     rowsPerPage: 10,
     page: 0,
     modalIsOpen: false
   }
+
+  // ------------------------------
+  //
+  //  Handlers
+  //
+  // ------------------------------
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -77,13 +107,20 @@ class ListMessagePage extends React.Component {
     this.props.dispatch(actions.deleteMessageWithId(id));
   }
 
+  // ------------------------------
+  //
+  //  Render function definition
+  //
+  // ------------------------------
+
   render() {
     const { mapChatIdToName, classes } = this.props;
     const { page, rowsPerPage } = this.state;
 
     return (
       <div>
-        {this.props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
+        {this.props.fetchingInProgress
+          ? <p>updating data in progress...</p> : ''}
         <StyledTableToolbar
           selectedRow={this.state.checked}
 
@@ -134,27 +171,24 @@ class ListMessagePage extends React.Component {
 //
 // --------------------------------------------------
 
-
-
-const toolbarStyles = theme => ({
-  root: {
-    paddingRight: theme.spacing.unit,
-  },
-  actions: {
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    flexGrow: 1
-  },
-  button: {
-    display: "inline-block"
-  }
-});
-
+// Toolbar with title and actions buttons
 const TableToolbar = props => {
+
+  // ------------------------------
+  //
+  //  Props extraction
+  //
+  // ------------------------------
+
   const { selectedRow, classes,
     deleteClickHandler, editClickHandler,
     addClickHandler } = props;
+
+  // ------------------------------
+  //
+  //  Render
+  //
+  // ------------------------------
 
   return (
     <Toolbar
@@ -179,14 +213,25 @@ const TableToolbar = props => {
   );
 };
 
-const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
-
 // Table body with rows with onClick handler that links to other page
 const TableBodyWithMessages = (props) => {
-  // Unpack all the things that we need
+
+  // ------------------------------
+  //
+  //  Props extraction
+  //
+  // ------------------------------
+
   const { page, rowsPerPage, classes, clickHandler, chatsMapping } = props;
 
+  // ------------------------------
+  //
+  //  List generation
+  //
+  // ------------------------------
+
   if (props.list.length > 0) {
+    // Case when we have messages in list
     return (
       <TableBody>
       { props.list
@@ -205,7 +250,9 @@ const TableBodyWithMessages = (props) => {
             >
               <TableCell>{mess.id}</TableCell>
               <TableCell>{mess.type}</TableCell>
-              <TableCell>{new Date(mess.closest_date).toLocaleString("ru")}</TableCell>
+              <TableCell>
+                {new Date(mess.closest_date).toLocaleString("ru")}
+              </TableCell>
               <TableCell>{mess.payload_type}</TableCell>
               <TableCell>
                 <ChatsChips chats={chats} classes={classes}/>
@@ -216,6 +263,7 @@ const TableBodyWithMessages = (props) => {
       </TableBody>
     );
   } else {
+    // Case when we do not have any messages
     return (
       <TableBody>
         <TableRow>
@@ -259,6 +307,8 @@ const ChatsChips = (props) => {
 //  Connection and export section
 //
 // --------------------------------------------------
+
+const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
 
 const mapStateToProps = (state) => {
   return {

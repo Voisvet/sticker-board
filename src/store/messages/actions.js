@@ -1,9 +1,10 @@
 import * as api from '../../services/apiConnector';
-
 import * as types from './actionTypes';
-
 import * as userSelectors from '../user/reducer';
 
+
+// Fetch list of messages from server
+// And save it to redux store
 export function fetchListOfMessages() {
   return async(dispatch, getState) => {
     // Notify that fetch started
@@ -30,6 +31,8 @@ export function fetchListOfMessages() {
   };
 }
 
+// Fetch list of chats with their ids
+// And save it to redux store
 export function fetchListOfChats() {
   return async(dispatch, getState) => {
     const token = userSelectors.getUserToken(getState());
@@ -51,6 +54,8 @@ export function fetchListOfChats() {
   };
 }
 
+// Fetch detailed information about concrete message
+// And save it to redux store
 export function fetchMessageWithId(id) {
   return async(dispatch, getState) => {
     const token = userSelectors.getUserToken(getState());
@@ -75,6 +80,8 @@ export function fetchMessageWithId(id) {
   };
 }
 
+// Fetch payload of the message
+// And save it to store
 export function fetchPayloadWithId(id) {
   return async(dispatch, getState) => {
     const token = userSelectors.getUserToken(getState());
@@ -96,6 +103,8 @@ export function fetchPayloadWithId(id) {
   };
 }
 
+// Delete message with given id
+// And update information in store
 export function deleteMessageWithId(id) {
   return async(dispatch, getState) => {
     const token = userSelectors.getUserToken(getState());

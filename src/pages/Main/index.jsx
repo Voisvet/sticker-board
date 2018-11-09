@@ -18,8 +18,6 @@ import ListImagePage from './ListImagePage';
 
 // Buttons for app bar
 import MainAppBarButtons from './AppBarButtons';
-import ListMessageAppBarButtons from './ListMessagePage/AppBarButtons';
-import ListAdminAppBarButtons from './ListAdminPage/AppBarButtons';
 
 // Actions for store
 import * as messagesActions from '../../store/messages/actions';
@@ -53,7 +51,7 @@ const styles = {
 
 // --------------------------------------------------
 //
-//  Component section
+//  Main component section
 //
 // --------------------------------------------------
 
@@ -92,17 +90,16 @@ class Main extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow}>
               TG Bot CP
             </Typography>
-            <AppBarButtons />
+            <Switch>
+              <Route exact path='/app' component={MainAppBarButtons} />
+            </Switch>
           </Toolbar>
         </AppBar>
         <div className={classes.body}>
           <Switch>
             <Route exact path='/app' component={ListMessagePage} />
-
             <Route exact path='/app/admins' component={ListAdminPage} />
-
             <Route exact path='/app/messages' component={ListMessagePage} />
-
             <Route path='/app/images' component={ListImagePage} />
           </Switch>
         </div>
@@ -136,19 +133,9 @@ const BackArrow = (props) => {
   );
 }
 
-const AppBarButtons = (props) => {
-  return  (
-    <Switch>
-      <Route exact path='/app' component={MainAppBarButtons} />
-      <Route exact path='/app/admins' component={ListAdminAppBarButtons} />
-      <Route exact path='/app/messages' component={ListMessageAppBarButtons} />
-    </Switch>
-  );
-}
-
 // --------------------------------------------------
 //
-//  State-to-props mapping and export section
+//  Composing and export section
 //
 // --------------------------------------------------
 

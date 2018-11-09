@@ -2,8 +2,13 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
 import { withStyles } from '@material-ui/core/styles';
+
+// --------------------------------------------------
+//
+//  Styles section
+//
+// --------------------------------------------------
 
 const styles = theme => ({
   leftIcon: {
@@ -19,8 +24,27 @@ const styles = theme => ({
   }
 });
 
+// --------------------------------------------------
+//
+//  Main component section
+//
+// --------------------------------------------------
+
 const PayloadSwitch = (props) => {
+
+  // ------------------------------
+  //
+  //  Props extraction
+  //
+  // ------------------------------
+
   const {payload, payload_type, classes} = props;
+
+  // ------------------------------
+  //
+  //  Special case - content loading
+  //
+  // ------------------------------
 
   if (!payload) {
     return (
@@ -29,6 +53,12 @@ const PayloadSwitch = (props) => {
       </Typography>
     );
   }
+
+  // ------------------------------
+  //
+  //  Render part
+  //
+  // ------------------------------
 
   if (payload_type === 'file') {
     return (
@@ -54,5 +84,11 @@ const PayloadSwitch = (props) => {
     );
   }
 };
+
+// --------------------------------------------------
+//
+//  Composing and export section
+//
+// --------------------------------------------------
 
 export default withStyles(styles)(PayloadSwitch);

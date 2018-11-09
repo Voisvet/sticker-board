@@ -5,6 +5,12 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../store/user/actions';
 
+// --------------------------------------------------
+//
+//  Main component section
+//
+// --------------------------------------------------
+
 const AppBarButtons = (props) => {
   return (
     <div>
@@ -26,5 +32,11 @@ const AppBarButtons = (props) => {
     </div>
   );
 };
+
+// --------------------------------------------------
+//
+//  Composing and export section
+//
+// --------------------------------------------------
 
 export default connect()(AppBarButtons);

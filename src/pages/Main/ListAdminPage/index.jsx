@@ -8,24 +8,28 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Edit from '@material-ui/icons/Edit';
-import Add from '@material-ui/icons/Add';
-import { withStyles } from '@material-ui/core/styles';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 import AdminModal from './AdminModal';
+import TableToolbar from './TableToolbar';
 
 import * as selectors from '../../../store/admins/reducer';
 import * as actions from '../../../store/admins/actions';
 
+// --------------------------------------------------
+//
+//  Main component section
+//
+// --------------------------------------------------
 
 class ListAdminPage extends React.Component {
+
+  // ------------------------------
+  //
+  //  State initialization
+  //
+  // ------------------------------
+
   state = {
     rowsPerPage: 10,
     page: 0,
@@ -33,6 +37,12 @@ class ListAdminPage extends React.Component {
     checked: -1,
     adminToEdit: undefined
   }
+
+  // ------------------------------
+  //
+  //  Handlers
+  //
+  // ------------------------------
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -94,30 +104,19 @@ class ListAdminPage extends React.Component {
     }
   };
 
+  // ------------------------------
+  //
+  //  Render function
+  //
+  // ------------------------------
+
   render() {
     const { page, rowsPerPage } = this.state;
-
-    let admins = this.props.list ?
-        this.props.list
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map((admin, ind) => {
-            return (
-              <TableRow hover key={admin.id} onClick={() => this.handleRowClick(ind)}>
-                <TableCell padding="checkbox">
-                  <Checkbox checked={ind === this.state.checked} />
-                </TableCell>
-                <TableCell>{admin.id}</TableCell>
-                <TableCell>{admin.name}</TableCell>
-                <TableCell>{admin.email}</TableCell>
-                <TableCell>{rightsToStringMapping[admin.access_rights].join(', ')}</TableCell>
-              </TableRow>
-            );
-          }) : '';
 
     return (
       <div>
         {this.props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
-        <StyledTableToolbar
+        <TableToolbar
           selectedRow={this.state.checked}
           deleteClickHandler={this.handleDeleteClick}
           editClickHandler={this.handleEditClick}
@@ -134,7 +133,13 @@ class ListAdminPage extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {admins}
+            <AdminsList
+              list={this.props.list}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              checked={this.state.checked}
+              rowClickHandler={this.handleRowClick}
+            />
           </TableBody>
         </Table>
         <TablePagination
@@ -160,72 +165,38 @@ class ListAdminPage extends React.Component {
   }
 }
 
-const toolbarStyles = theme => ({
-  root: {
-    paddingRight: theme.spacing.unit,
-  },
-  actions: {
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    flexGrow: 1
-  },
-  button: {
-    display: "inline-block"
-  }
-});
+// --------------------------------------------------
+//
+//  Sub-component section
+//
+// --------------------------------------------------
 
-const TableToolbar = props => {
-  const { selectedRow, classes,
-    deleteClickHandler, editClickHandler,
-    addClickHandler } = props;
-
-  return (
-    <Toolbar
-      className={classes.root}
-    >
-      <div className={classes.title}>
-        <Typography variant="h6" id="tableTitle">
-          Administrators
-        </Typography>
-      </div>
-      <div className={classes.actions}>
-        <Tooltip title="Edit">
-          <div className={classes.button}>
-            <IconButton
-            aria-label="Edit"
-            disabled={selectedRow === -1}
-            onClick={() => editClickHandler(selectedRow)}
-            >
-            <Edit />
-            </IconButton>
-          </div>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <div className={classes.button}>
-            <IconButton
-            aria-label="Delete"
-            disabled={selectedRow === -1}
-            onClick={() => deleteClickHandler(selectedRow)}
-            >
-            <DeleteIcon />
-            </IconButton>
-          </div>
-        </Tooltip>
-        <Tooltip title="Add Admin">
-          <IconButton
-            aria-label="Add Admin"
-            onClick={addClickHandler}
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </div>
-    </Toolbar>
-  );
+const AdminsList = (props) => {
+  const { list, page, rowsPerPage, checked, rowClickHandler } = props;
+  return list ? list
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((admin, ind) => {
+          return (
+            <TableRow hover key={admin.id} onClick={() => rowClickHandler(ind)}>
+              <TableCell padding="checkbox">
+                <Checkbox checked={ind === checked} />
+              </TableCell>
+              <TableCell>{admin.id}</TableCell>
+              <TableCell>{admin.name}</TableCell>
+              <TableCell>{admin.email}</TableCell>
+              <TableCell>
+                {rightsToStringMapping[admin.access_rights].join(', ')}
+              </TableCell>
+            </TableRow>
+          );
+        }) : '';
 };
 
-const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
+// --------------------------------------------------
+//
+//  Supporting stuff
+//
+// --------------------------------------------------
 
 const rightsToStringMapping = {
   0: ["Only observe"],
@@ -251,6 +222,11 @@ const rightsToBoolMapping = {
 }
 rightsToBoolMapping[-1] = [true, true, true];
 
+// --------------------------------------------------
+//
+//  Composing and export section
+//
+// --------------------------------------------------
 
 const mapStateToProps = (state) => {
   return {

@@ -1,6 +1,10 @@
 import * as types from './actionTypes';
 
-// Initialization of this part of store
+// --------------------------------------------------
+//
+//  Initial state of this part
+//
+// --------------------------------------------------
 
 const initialState = {
   list: [],
@@ -10,7 +14,11 @@ const initialState = {
   fetchingInProgress: false
 };
 
-// Reducer for this part of store
+// --------------------------------------------------
+//
+//  Reducer for this part
+//
+// --------------------------------------------------
 
 export default function reduce(state = initialState, action = {}) {
   //console.log("Dispatch", action.type);
@@ -82,7 +90,11 @@ export default function reduce(state = initialState, action = {}) {
   }
 }
 
-// Selectors for this part of store
+// --------------------------------------------------
+//
+//  Selectors for this part
+//
+// --------------------------------------------------
 
 export function getListOfMessages(state) {
   return state.messages.list;

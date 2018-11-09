@@ -1,9 +1,10 @@
 import Cookies from 'js-cookie';
 
 import * as api from '../../services/apiConnector';
-
 import * as types from './actionTypes';
 
+// Look up for token in cookies
+// and save it in redux store
 export function fetchTokenFromCookies() {
   return (dispatch, getState) => {
     let token = Cookies.get('user-token');
@@ -16,6 +17,8 @@ export function fetchTokenFromCookies() {
   };
 }
 
+// Request new token from server
+// and save it in redux store
 export function fetchTokenFromServer(login, password) {
   return async(dispatch, getState) => {
     // Notify that fetch started
@@ -42,22 +45,14 @@ export function fetchTokenFromServer(login, password) {
   };
 }
 
+// Delete token from cookies and store
 export function invalidateToken() {
   return async(dispatch, getState) => {
-    // Request token invalidation
-    const resp = await api.logout(getState().user.token);
-    if (resp.status_code == 0) {
-      // If all is alright, delete cookie and update store
-      Cookies.remove('user-token');
-      dispatch({
-        type: types.TOKEN_INVALIDATED
-      });
-    } else {
-      // If something went wrong, update error message in store
-      dispatch({
-        type: types.TOKEN_INVALIDATION_FAILED,
-        errorMessage: resp.error
-      });
-    }
+    // Just delete token because it is JWT
+    // and it does not require to notify server
+    Cookies.remove('user-token');
+    dispatch({
+      type: types.TOKEN_INVALIDATED
+    });
   };
 }

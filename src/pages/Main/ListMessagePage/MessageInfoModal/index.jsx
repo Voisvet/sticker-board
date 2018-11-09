@@ -7,13 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Delete from '@material-ui/icons/Delete';
-import Edit from '@material-ui/icons/Edit';
-import Close from '@material-ui/icons/Close';
-import CloudDownload from '@material-ui/icons/CloudDownload';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
+
+import Delete from '@material-ui/icons/Delete';
+import Close from '@material-ui/icons/Close';
 
 import ChatsChips from './ChatsChips';
 import PeriodsList from './PeriodsList';
@@ -81,12 +79,27 @@ const styles = theme => ({
 
 // --------------------------------------------------
 //
-//  Main component
+//  Main component section
 //
 // --------------------------------------------------
 
 const MessageInfoModal = (props) => {
-  const { open, classes, closeHandler, deleteHandler, message, mapChatIdToName } = props;
+
+  // ------------------------------
+  //
+  //  Props extraction
+  //
+  // ------------------------------
+
+  const { open, classes, closeHandler,
+          deleteHandler, message,
+          mapChatIdToName } = props;
+
+  // ------------------------------
+  //
+  //  Special case (progress bar)
+  //
+  // ------------------------------
 
   if (!message) {
     return (
@@ -103,6 +116,12 @@ const MessageInfoModal = (props) => {
         </Modal>
     );
   }
+
+  // ------------------------------
+  //
+  //  Rendering part
+  //
+  // ------------------------------
 
   const mapedChats = message.chats.map((chat) => mapChatIdToName[chat]);
   return (
@@ -189,7 +208,7 @@ const MessageInfoModal = (props) => {
 
 // --------------------------------------------------
 //
-//  Additional components
+//  Composing and export section
 //
 // --------------------------------------------------
 
