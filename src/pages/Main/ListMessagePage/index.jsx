@@ -6,41 +6,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import Typography from '@material-ui/core/Typography';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
-
-import Add from '@material-ui/icons/Add';
 
 import MessageInfoModal from './MessageInfoModal';
 import TableBodyWithMessages from './TableBodyWithMessages';
+import TableToolbar from './TableToolbar';
 
 import * as selectors from '../../../store/messages/reducer';
 import * as actions from '../../../store/messages/actions';
-
-// --------------------------------------------------
-//
-//  Styles section
-//
-// --------------------------------------------------
-
-// Table toolbar styles
-const toolbarStyles = theme => ({
-  root: {
-    paddingRight: theme.spacing.unit,
-  },
-  actions: {
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    flexGrow: 1
-  },
-  button: {
-    display: "inline-block"
-  }
-});
 
 // --------------------------------------------------
 //
@@ -95,6 +68,10 @@ class ListMessagePage extends React.Component {
     this.props.dispatch(actions.deleteMessageWithId(id));
   }
 
+  handleRefresh = () => {
+    this.props.dispatch(actions.fetchListOfMessages());
+  }
+
   // ------------------------------
   //
   //  Render function definition
@@ -109,9 +86,9 @@ class ListMessagePage extends React.Component {
       <div>
         {this.props.fetchingInProgress
           ? <p>updating data in progress...</p> : ''}
-        <StyledTableToolbar
+        <TableToolbar
           selectedRow={this.state.checked}
-
+          refrechClickHandler={this.handleRefresh}
         />
         <Table>
           <TableHead>
@@ -154,59 +131,9 @@ class ListMessagePage extends React.Component {
 
 // --------------------------------------------------
 //
-//  Additional components
-//
-// --------------------------------------------------
-
-// Toolbar with title and actions buttons
-const TableToolbar = props => {
-
-  // ------------------------------
-  //
-  //  Props extraction
-  //
-  // ------------------------------
-
-  const { selectedRow, classes,
-    deleteClickHandler, editClickHandler,
-    addClickHandler } = props;
-
-  // ------------------------------
-  //
-  //  Render
-  //
-  // ------------------------------
-
-  return (
-    <Toolbar
-      className={classes.root}
-    >
-      <div className={classes.title}>
-        <Typography variant="h6" id="tableTitle">
-          Messages
-        </Typography>
-      </div>
-      <div className={classes.actions}>
-        <Tooltip title="Add Admin">
-          <IconButton
-            aria-label="Add Admin"
-            onClick={addClickHandler}
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </div>
-    </Toolbar>
-  );
-};
-
-// --------------------------------------------------
-//
 //  Connection and export section
 //
 // --------------------------------------------------
-
-const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
 
 const mapStateToProps = (state) => {
   return {

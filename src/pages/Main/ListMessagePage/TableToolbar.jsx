@@ -6,9 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 
-import DeleteIcon from '@material-ui/icons/Delete';
 import Refresh from '@material-ui/icons/Refresh';
-import Edit from '@material-ui/icons/Edit';
 import Add from '@material-ui/icons/Add';
 
 // --------------------------------------------------
@@ -38,6 +36,7 @@ const styles = theme => ({
 //
 // --------------------------------------------------
 
+// Toolbar with title and actions buttons
 const TableToolbar = props => {
 
   // ------------------------------
@@ -47,12 +46,11 @@ const TableToolbar = props => {
   // ------------------------------
 
   const { selectedRow, classes,
-    deleteClickHandler, editClickHandler,
-    addClickHandler, refrechClickHandler } = props;
+    refrechClickHandler, addClickHandler } = props;
 
   // ------------------------------
   //
-  //  Rendering part
+  //  Render
   //
   // ------------------------------
 
@@ -62,18 +60,10 @@ const TableToolbar = props => {
     >
       <div className={classes.title}>
         <Typography variant="h6" id="tableTitle">
-          Administrators
+          Messages
         </Typography>
       </div>
       <div className={classes.actions}>
-        <Tooltip title="Add Admin">
-          <IconButton
-            aria-label="Add Admin"
-            onClick={addClickHandler}
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
         <Tooltip title="Refresh">
           <IconButton
             aria-label="Refresh"
@@ -82,27 +72,13 @@ const TableToolbar = props => {
             <Refresh />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Edit">
-          <div className={classes.button}>
-            <IconButton
-            aria-label="Edit"
-            disabled={selectedRow === -1}
-            onClick={() => editClickHandler(selectedRow)}
-            >
-            <Edit />
-            </IconButton>
-          </div>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <div className={classes.button}>
-            <IconButton
-            aria-label="Delete"
-            disabled={selectedRow === -1}
-            onClick={() => deleteClickHandler(selectedRow)}
-            >
-            <DeleteIcon />
-            </IconButton>
-          </div>
+        <Tooltip title="Add Message">
+          <IconButton
+            aria-label="Add Message"
+            onClick={addClickHandler}
+          >
+            <Add />
+          </IconButton>
         </Tooltip>
       </div>
     </Toolbar>

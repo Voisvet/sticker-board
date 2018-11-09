@@ -67,6 +67,10 @@ class ListAdminPage extends React.Component {
     });
   };
 
+  handleRefresh = () => {
+    this.props.dispatch(actions.fetchListOfAdmins());
+  }
+
   handleAddClick = () => {
     this.setState({modalIsOpen: true});
   };
@@ -121,6 +125,7 @@ class ListAdminPage extends React.Component {
           deleteClickHandler={this.handleDeleteClick}
           editClickHandler={this.handleEditClick}
           addClickHandler={this.handleAddClick}
+          refrechClickHandler={this.handleRefresh}
         />
         <Table>
           <TableHead>
