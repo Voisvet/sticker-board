@@ -57,7 +57,7 @@ export function fetchMessageWithId(id) {
     // Send request to server
     const resp = await api.getMessageInfo(token, id);
     if (resp.status_code == 0) {
-      // If all is alright, update chats in store
+      // If all is alright, update current message in store
       dispatch({
         type: types.MESSAGE_WITH_ID_FETCHED,
         message: {
@@ -69,6 +69,27 @@ export function fetchMessageWithId(id) {
       // If something went wrong, update error message in store
       dispatch({
         type: types.MESSAGE_WITH_ID_FETCH_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}
+
+export function fetchPayloadWithId(id) {
+  return async(dispatch, getState) => {
+    const token = userSelectors.getUserToken(getState());
+    // Send request to server
+    const resp = await api.getMessagePayload(token, id);
+    if (resp.status_code == 0) {
+      // If all is alright, update current payload in message in store
+      dispatch({
+        type: types.PAYLOAD_FETCHED,
+        payload: resp.payload
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.PAYLOAD_FETCH_FAILED,
         errorMessage: resp.error
       });
     }

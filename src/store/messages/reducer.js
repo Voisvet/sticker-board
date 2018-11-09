@@ -13,6 +13,7 @@ const initialState = {
 // Reducer for this part of store
 
 export default function reduce(state = initialState, action = {}) {
+  //console.log("Dispatch", action.type);
   switch (action.type) {
     case types.MESSAGES_FETCHED:
       // TODO: Implement updating list of messages when
@@ -49,6 +50,19 @@ export default function reduce(state = initialState, action = {}) {
         currentMessage: action.message
       };
     case types.MESSAGE_WITH_ID_FETCH_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
+    case types.PAYLOAD_FETCHED:
+      return {
+        ...state,
+        currentMessage: {
+          ...state.currentMessage,
+          payload: action.payload
+        }
+      };
+    case types.PAYLOAD_FETCH_FAILED:
       return {
         ...state,
         errorMessage: action.errorMessage

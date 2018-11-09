@@ -16,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import ChatsChips from './ChatsChips';
 import PeriodsList from './PeriodsList';
+import PayloadSwitch from './PayloadSwitch';
 
 import * as selectors from '../../../../store/messages/reducer';
 
@@ -46,6 +47,9 @@ const styles = theme => ({
   line: {
     opacity: "0.25",
     margin: 0
+  },
+  firstBlock: {
+    padding: 2 * theme.spacing.unit
   },
   block: {
     paddingLeft: 2 * theme.spacing.unit,
@@ -124,7 +128,7 @@ const MessageInfoModal = (props) => {
           </Toolbar>
         </AppBar>
         <div className={classes.body}>
-          <div className={classes.block}>
+          <div className={classes.firstBlock}>
             <Typography variant='subtitle1'>Info</Typography>
             <div className={classes.typeBlock}>
               <Typography variant='body2'>{message.type}</Typography>
@@ -163,22 +167,10 @@ const MessageInfoModal = (props) => {
           <div className={classes.block}>
             <Typography variant='subtitle1'>Payload</Typography>
             <div className={classes.typeBlock}>
-            { message.payload_type === 'file' ? (
-              <Button variant="contained" color="primary" className={classes.button}>
-                <CloudDownload className={classes.leftIcon} />
-                Download File
-              </Button>
-            ) : ''}
-            { message.payload_type === 'message' ? (
-              <Typography variant='body2'>
-                This is a message payload. Do not take care of it
-              </Typography>
-            ) : ''}
-            { message.payload_type === 'sticker' ? (
-              <Typography variant='body2'>
-                Here should be an image
-              </Typography>
-            ) : ''}
+              <PayloadSwitch
+                payload_type={message.payload_type}
+                payload={message.payload}
+              />
             </div>
           </div>
         </div>

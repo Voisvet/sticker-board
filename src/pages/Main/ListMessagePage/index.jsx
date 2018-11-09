@@ -54,7 +54,12 @@ class ListMessagePage extends React.Component {
   };
 
   handleRowClick = (id) => {
-    this.props.dispatch(actions.fetchMessageWithId(id));
+    this.props.dispatch(actions.fetchMessageWithId(id))
+      .then(() => {
+        if (this.props.currentMessage.payload_type !== 'file') {
+          this.props.dispatch(actions.fetchPayloadWithId(id));
+        }
+      });
     this.setState({ modalIsOpen: true });
   };
 

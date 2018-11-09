@@ -241,3 +241,39 @@ export async function getMessageInfo(token, id) {
     console.error(err);
   }
 }
+
+// Implementation of /messages/payload/id request
+// Returns payload of the message
+// Required fields - token, id
+// Optional fields - none
+export async function getMessagePayload(token, id) {
+  // Request url
+  const url = BACKEND_URL + '/messages/payload/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
