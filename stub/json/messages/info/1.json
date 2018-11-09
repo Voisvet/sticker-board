@@ -1,17 +1,22 @@
 {
-   "type": "periodical",
-   "date": 0,
-   "periods": [
+  "status_code": 0,
+  "error": "",
+  "message": {
+    "type": "periodical",
+    "date": 0,
+    "periods": [
       {
-         "month": 0,
-         "day": 0,
-         "day_of_week": 0,
-         "hour": 0,
-         "minute":0
+        "month": 0,
+        "day": 0,
+        "day_of_week": 0,
+        "hour": 0,
+        "minute":0
       }
-   ],
-   "chats": [
+    ],
+    "chats": [
       "this_is_chat_id",
       "this_is_another_chat_id"
-   ]
+    ],
+    "payload_type": "sticker"
+  }
 }
