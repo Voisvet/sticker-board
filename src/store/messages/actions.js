@@ -95,3 +95,24 @@ export function fetchPayloadWithId(id) {
     }
   };
 }
+
+export function deleteMessageWithId(id) {
+  return async(dispatch, getState) => {
+    const token = userSelectors.getUserToken(getState());
+    // Send request to server
+    const resp = await api.deleteMessage(token, id);
+    if (resp.status_code == 0) {
+      // If all is alright, update current list with messages in store
+      dispatch({
+        type: types.MESSAGE_DELETED,
+        id: id
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.MESSAGE_DELETION_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}

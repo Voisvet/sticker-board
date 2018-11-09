@@ -67,6 +67,16 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         errorMessage: action.errorMessage
       };
+    case types.MESSAGE_DELETED:
+      return {
+        ...state,
+        list: state.list.filter(message => message.id != action.id)
+      };
+    case types.MESSAGE_DELETION_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }
