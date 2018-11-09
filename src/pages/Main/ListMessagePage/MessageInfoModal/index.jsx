@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
@@ -15,6 +16,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import ChatsChips from './ChatsChips';
 import PeriodsList from './PeriodsList';
+
+import * as selectors from '../../../../store/messages/reducer';
 
 // --------------------------------------------------
 //
@@ -72,8 +75,25 @@ const styles = theme => ({
 // --------------------------------------------------
 
 const MessageInfoModal = (props) => {
-  const { open, classes, closeHandler, message } = props;
+  const { open, classes, closeHandler, message, mapChatIdToName } = props;
 
+  if (!message) {
+    return (
+        <Modal
+          open={open}
+          onClose={closeHandler}
+        >
+          <Paper
+            elevation={5}
+            className={classes.paper}
+          >
+          Wait for a moment...
+          </Paper>
+        </Modal>
+    );
+  }
+
+  const mapedChats = message.chats.map((chat) => mapChatIdToName[chat]);
   return (
     <Modal
       open={open}
@@ -127,7 +147,7 @@ const MessageInfoModal = (props) => {
           <div className={classes.block}>
             <Typography variant='subtitle1'>Chats</Typography>
             <div className={classes.chipsBlock}>
-              <ChatsChips chats={message.chats} />
+              <ChatsChips chats={mapedChats} />
             </div>
           </div>
           { message.type === 'periodical' ? (
@@ -173,4 +193,11 @@ const MessageInfoModal = (props) => {
 //
 // --------------------------------------------------
 
-export default withStyles(styles)(MessageInfoModal);
+const mapStateToProps = (state) => {
+  return {
+    mapChatIdToName: selectors.getChatIdToNameMapping(state)
+  };
+};
+
+const styledMessageInfoModal = withStyles(styles)(MessageInfoModal);
+export default connect(mapStateToProps)(styledMessageInfoModal);

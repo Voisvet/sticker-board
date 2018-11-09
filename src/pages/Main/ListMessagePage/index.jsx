@@ -11,7 +11,10 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
 
+import MessageInfoModal from './MessageInfoModal';
+
 import * as selectors from '../../../store/messages/reducer';
+import * as actions from '../../../store/messages/actions';
 
 // --------------------------------------------------
 //
@@ -38,7 +41,8 @@ const styles = theme => ({
 class ListMessagePage extends React.Component {
   state = {
     rowsPerPage: 10,
-    page: 0
+    page: 0,
+    modalIsOpen: false
   }
 
   handleChangePage = (event, page) => {
@@ -49,9 +53,14 @@ class ListMessagePage extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleRowClick = (event, url) => {
-    this.props.history.push(url);
-  }
+  handleRowClick = (id) => {
+    this.props.dispatch(actions.fetchMessageWithId(id));
+    this.setState({ modalIsOpen: true });
+  };
+
+  handleModalClose = () => {
+    this.setState({ modalIsOpen: false });
+  };
 
   render() {
     const { mapChatIdToName, classes } = this.props;
@@ -89,6 +98,11 @@ class ListMessagePage extends React.Component {
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
+        <MessageInfoModal
+          open={this.state.modalIsOpen}
+          closeHandler={this.handleModalClose}
+          message={this.props.currentMessage}
+        />
       </div>
     );
   }
@@ -120,9 +134,7 @@ const TableBodyWithMessages = (props) => {
               key={mess.id}
               hover
               className={classes.tableRowLink}
-              onClick={(event) => {
-                clickHandler(event, '/app/messages/info/' + mess.id)
-              }}
+              onClick={() => clickHandler(mess.id)}
             >
               <TableCell>{mess.id}</TableCell>
               <TableCell>{mess.type}</TableCell>
@@ -186,7 +198,8 @@ const mapStateToProps = (state) => {
     list: selectors.getListOfMessages(state),
     fetchingInProgress: selectors.getFetchingState(state),
     errorMessage: selectors.getErrorMessage(state),
-    mapChatIdToName: selectors.getChatIdToNameMapping(state)
+    mapChatIdToName: selectors.getChatIdToNameMapping(state),
+    currentMessage: selectors.getCurrentMessage(state)
   };
 };
 
