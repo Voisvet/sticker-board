@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
 
 import AdminModal from './AdminModal';
 import TableToolbar from './TableToolbar';
@@ -184,7 +184,7 @@ const AdminsList = (props) => {
           return (
             <TableRow hover key={admin.id} onClick={() => rowClickHandler(ind)}>
               <TableCell padding="checkbox">
-                <Checkbox checked={ind === checked} />
+                <Radio checked={ind === checked} />
               </TableCell>
               <TableCell>{admin.id}</TableCell>
               <TableCell>{admin.name}</TableCell>
