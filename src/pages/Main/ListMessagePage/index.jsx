@@ -1,22 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import Add from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 
+import Add from '@material-ui/icons/Add';
+
 import MessageInfoModal from './MessageInfoModal';
+import TableBodyWithMessages from './TableBodyWithMessages';
 
 import * as selectors from '../../../store/messages/reducer';
 import * as actions from '../../../store/messages/actions';
@@ -26,17 +25,6 @@ import * as actions from '../../../store/messages/actions';
 //  Styles section
 //
 // --------------------------------------------------
-
-// Styles for main component
-const styles = theme => ({
-  chip: {
-    marginRight: theme.spacing.unit,
-    cursor: "pointer"
-  },
-  tableRowLink: {
-    cursor: "pointer"
-  }
-});
 
 // Table toolbar styles
 const toolbarStyles = theme => ({
@@ -114,7 +102,7 @@ class ListMessagePage extends React.Component {
   // ------------------------------
 
   render() {
-    const { mapChatIdToName, classes } = this.props;
+    const { mapChatIdToName } = this.props;
     const { page, rowsPerPage } = this.state;
 
     return (
@@ -139,7 +127,6 @@ class ListMessagePage extends React.Component {
             list={this.props.list}
             page={page}
             rowsPerPage={rowsPerPage}
-            classes={classes}
             clickHandler={this.handleRowClick}
             chatsMapping={mapChatIdToName}
           />
@@ -213,95 +200,6 @@ const TableToolbar = props => {
   );
 };
 
-// Table body with rows with onClick handler that links to other page
-const TableBodyWithMessages = (props) => {
-
-  // ------------------------------
-  //
-  //  Props extraction
-  //
-  // ------------------------------
-
-  const { page, rowsPerPage, classes, clickHandler, chatsMapping } = props;
-
-  // ------------------------------
-  //
-  //  List generation
-  //
-  // ------------------------------
-
-  if (props.list.length > 0) {
-    // Case when we have messages in list
-    return (
-      <TableBody>
-      { props.list
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map(mess => {
-          let chats = mess.chats;
-          if (chatsMapping) {
-            chats = mess.chats.map(chat => chatsMapping[chat]);
-          }
-          return (
-            <TableRow
-              key={mess.id}
-              hover
-              className={classes.tableRowLink}
-              onClick={() => clickHandler(mess.id)}
-            >
-              <TableCell>{mess.id}</TableCell>
-              <TableCell>{mess.type}</TableCell>
-              <TableCell>
-                {new Date(mess.closest_date).toLocaleString("ru")}
-              </TableCell>
-              <TableCell>{mess.payload_type}</TableCell>
-              <TableCell>
-                <ChatsChips chats={chats} classes={classes}/>
-              </TableCell>
-            </TableRow>
-          );
-        }) }
-      </TableBody>
-    );
-  } else {
-    // Case when we do not have any messages
-    return (
-      <TableBody>
-        <TableRow>
-          <TableCell colSpan={5}>
-            You do not have any messages :(
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    );
-  }
-};
-
-// Just list of chips for beautiful displaying of list of chats
-const ChatsChips = (props) => {
-  // Display three first chats
-  let chatsChips = props.chats.slice(0, 3).map(chat => {
-    return (<Chip
-      key={chat}
-      color="primary"
-      label={chat}
-      className={props.classes.chip}
-      />);
-  });
-
-  // If we have more than three chats, then display someting like "more" chip
-  if (props.chats.length > 3) {
-    chatsChips.push(
-      <Chip
-      key="_others"
-      label="..."
-      className={props.classes.chip}
-      />
-    )
-  }
-
-  return chatsChips;
-};
-
 // --------------------------------------------------
 //
 //  Connection and export section
@@ -320,5 +218,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const styledListMessagePage = withStyles(styles)(ListMessagePage)
-export default connect(mapStateToProps)(styledListMessagePage);
+export default connect(mapStateToProps)(ListMessagePage);
