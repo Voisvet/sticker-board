@@ -8,7 +8,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
+import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import Add from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 
 import MessageInfoModal from './MessageInfoModal';
@@ -79,6 +84,10 @@ class ListMessagePage extends React.Component {
     return (
       <div>
         {this.props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
+        <StyledTableToolbar
+          selectedRow={this.state.checked}
+
+        />
         <Table>
           <TableHead>
             <TableRow>
@@ -124,6 +133,53 @@ class ListMessagePage extends React.Component {
 //  Additional components
 //
 // --------------------------------------------------
+
+
+
+const toolbarStyles = theme => ({
+  root: {
+    paddingRight: theme.spacing.unit,
+  },
+  actions: {
+    color: theme.palette.text.secondary,
+  },
+  title: {
+    flexGrow: 1
+  },
+  button: {
+    display: "inline-block"
+  }
+});
+
+const TableToolbar = props => {
+  const { selectedRow, classes,
+    deleteClickHandler, editClickHandler,
+    addClickHandler } = props;
+
+  return (
+    <Toolbar
+      className={classes.root}
+    >
+      <div className={classes.title}>
+        <Typography variant="h6" id="tableTitle">
+          Messages
+        </Typography>
+      </div>
+      <div className={classes.actions}>
+        <Tooltip title="Add Admin">
+          <IconButton
+            aria-label="Add Admin"
+            onClick={addClickHandler}
+          >
+            <Add />
+          </IconButton>
+        </Tooltip>
+      </div>
+    </Toolbar>
+  );
+};
+
+const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
 
 // Table body with rows with onClick handler that links to other page
 const TableBodyWithMessages = (props) => {

@@ -87,7 +87,6 @@ class AdminModal extends React.Component {
 
   handleAccessLvlThreeChange = (event) => {
     this.setState({access_lvl_three: !this.state.access_lvl_three});
-    console.log(this.state);
   };
 
   render() {

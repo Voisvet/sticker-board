@@ -86,7 +86,7 @@ class ListAdminPage extends React.Component {
                 <TableCell>{admin.id}</TableCell>
                 <TableCell>{admin.name}</TableCell>
                 <TableCell>{admin.email}</TableCell>
-                <TableCell>{rightsMapping[admin.access_rights]}</TableCell>
+                <TableCell>{rightsMapping[admin.access_rights].join(', ')}</TableCell>
               </TableRow>
             );
           }) : '';
@@ -201,6 +201,8 @@ const TableToolbar = props => {
   );
 };
 
+const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
+
 const rightsMapping = {
   0: ["Only observe"],
   1: ["Manage admins"],
@@ -212,8 +214,6 @@ const rightsMapping = {
   7: ["Manage admins", "Manage scheduled messages", "Manage periodical messages"]
 }
 rightsMapping[-1] = ["Superuser"];
-
-const StyledTableToolbar = withStyles(toolbarStyles)(TableToolbar);
 
 const mapStateToProps = (state) => {
   return {
