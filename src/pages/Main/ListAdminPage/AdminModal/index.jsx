@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form'
 
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';

@@ -123,9 +123,6 @@ const MessageInfoModal = (props) => {
             >
               Message Info
             </Typography>
-            <IconButton aria-haspopup="true">
-              <Edit />
-            </IconButton>
             <IconButton
               aria-haspopup="true"
               color="secondary"

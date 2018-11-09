@@ -56,6 +56,13 @@ stubs.put('/admins/info/:id', (req, res, next) => {
   res.send(response);
 });
 
+stubs.delete('/admins/info/:id', (req, res, next) => {
+  res.send(JSON.stringify({
+    "status_code": 0,
+    "error": ""
+  }));
+});
+
 stubs.post('/admins/create', (req, res, next) => {
   response = fs.readFileSync(path.join(__dirname, './json/admins/create.json'));
   res.send(response);

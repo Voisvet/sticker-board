@@ -349,3 +349,39 @@ export async function createAdmin(token, admin) {
     console.error(err);
   }
 }
+
+// Implementation of /admins/info/id DELETE request
+// Deletes the admin with specified id
+// Required fields - token, id
+// Optional fields - none
+export async function deleteAdmin(token, id) {
+  // Request url
+  const url = BACKEND_URL + '/admins/info/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.delete(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}

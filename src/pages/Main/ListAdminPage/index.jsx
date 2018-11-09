@@ -61,7 +61,10 @@ class ListAdminPage extends React.Component {
     this.setState({modalIsOpen: true});
   };
 
-  handleDeleteClick = (row) => {};
+  handleDeleteClick = (row) => {
+    this.setState({checked: -1});
+    this.props.dispatch(actions.deleteAdminWithId(this.props.list[row].id));
+  };
 
   handleFormSubmit = (values) => {
     this.setState({modalIsOpen: false});

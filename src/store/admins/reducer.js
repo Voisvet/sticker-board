@@ -32,13 +32,23 @@ export default function reduce(state = initialState, action = {}) {
         errorMessage: action.errorMessage
       };
     case types.ADMIN_CREATED:
-    let list = state.list.slice();
-    list.push(action.admin);
+      let list = state.list.slice();
+      list.push(action.admin);
       return {
         ...state,
         list
       };
     case types.ADMIN_CREATION_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
+    case types.ADMIN_DELETED:
+      return {
+        ...state,
+        list: state.list.filter(admin => admin.id != action.id)
+      };
+    case types.ADMIN_DELETION_FAILED:
       return {
         ...state,
         errorMessage: action.errorMessage

@@ -64,3 +64,26 @@ export function createNewAdmin(form_data) {
     }
   };
 }
+
+export function deleteAdminWithId(id) {
+  return async(dispatch, getState) => {
+
+    const token = getState().user.token;
+    // Send request to server
+
+    const resp = await api.deleteAdmin(token, id);
+    if (resp.status_code == 0) {
+      // If all is alright, update admins lsit in store
+      dispatch({
+        type: types.ADMIN_DELETED,
+        id
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.ADMIN_DELETION_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}
