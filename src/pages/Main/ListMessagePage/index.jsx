@@ -67,6 +67,11 @@ class ListMessagePage extends React.Component {
     this.setState({ modalIsOpen: false });
   };
 
+  handleDeleteMessage = (id) => {
+    this.setState({ modalIsOpen: false });
+    this.props.dispatch(actions.deleteMessageWithId(id));
+  }
+
   render() {
     const { mapChatIdToName, classes } = this.props;
     const { page, rowsPerPage } = this.state;
@@ -106,6 +111,7 @@ class ListMessagePage extends React.Component {
         <MessageInfoModal
           open={this.state.modalIsOpen}
           closeHandler={this.handleModalClose}
+          deleteHandler={this.handleDeleteMessage}
           message={this.props.currentMessage}
         />
       </div>

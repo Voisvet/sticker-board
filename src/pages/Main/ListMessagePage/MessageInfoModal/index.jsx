@@ -12,6 +12,7 @@ import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import Close from '@material-ui/icons/Close';
 import CloudDownload from '@material-ui/icons/CloudDownload';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 import ChatsChips from './ChatsChips';
@@ -69,6 +70,12 @@ const styles = theme => ({
     marginLeft: -0.5 * theme.spacing.unit,
     marginBottom: -0.5 * theme.spacing.unit,
     marginTop: 0.5 * theme.spacing.unit
+  },
+  progressCircle: {
+    display: "block",
+    marginRight: "auto",
+    marginLeft: "auto",
+    marginTop: "200px"
   }
 });
 
@@ -79,7 +86,7 @@ const styles = theme => ({
 // --------------------------------------------------
 
 const MessageInfoModal = (props) => {
-  const { open, classes, closeHandler, message, mapChatIdToName } = props;
+  const { open, classes, closeHandler, deleteHandler, message, mapChatIdToName } = props;
 
   if (!message) {
     return (
@@ -91,7 +98,7 @@ const MessageInfoModal = (props) => {
             elevation={5}
             className={classes.paper}
           >
-          Wait for a moment...
+            <CircularProgress className={classes.progressCircle}/>
           </Paper>
         </Modal>
     );
@@ -119,7 +126,11 @@ const MessageInfoModal = (props) => {
             <IconButton aria-haspopup="true">
               <Edit />
             </IconButton>
-            <IconButton aria-haspopup="true" color="secondary">
+            <IconButton
+              aria-haspopup="true"
+              color="secondary"
+              onClick={() => deleteHandler(message.id)}
+            >
               <Delete />
             </IconButton>
             <IconButton aria-haspopup="true" onClick={closeHandler}>
