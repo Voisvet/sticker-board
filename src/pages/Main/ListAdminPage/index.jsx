@@ -51,7 +51,10 @@ class ListAdminPage extends React.Component {
   };
 
   handleModalClose = () => {
-    this.setState({modalIsOpen: false});
+    this.setState({
+      modalIsOpen: false,
+      adminToEdit: undefined
+    });
   };
 
   handleAddClick = () => {
