@@ -4,6 +4,7 @@ import * as types from './actionTypes';
 
 const initialState = {
   list: [],
+  currentMessage: undefined,
   chats: undefined,
   errorMessage: undefined,
   fetchingInProgress: false
@@ -42,6 +43,16 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         errorMessage: action.errorMessage
       };
+    case types.MESSAGE_WITH_ID_FETCHED:
+      return {
+        ...state,
+        currentMessage: action.message
+      };
+    case types.MESSAGE_WITH_ID_FETCH_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }
@@ -51,6 +62,10 @@ export default function reduce(state = initialState, action = {}) {
 
 export function getListOfMessages(state) {
   return state.messages.list;
+}
+
+export function getCurrentMessage(state) {
+  return state.messages.currentMessage;
 }
 
 export function getFetchingState(state) {

@@ -50,3 +50,27 @@ export function fetchListOfChats() {
     }
   };
 }
+
+export function fetchMessageWithId(id) {
+  return async(dispatch, getState) => {
+    const token = userSelectors.getUserToken(getState());
+    // Send request to server
+    const resp = await api.getMessageInfo(token, id);
+    if (resp.status_code == 0) {
+      // If all is alright, update chats in store
+      dispatch({
+        type: types.MESSAGE_WITH_ID_FETCHED,
+        message: {
+          ...resp.message,
+          id
+        }
+      });
+    } else {
+      // If something went wrong, update error message in store
+      dispatch({
+        type: types.MESSAGE_WITH_ID_FETCH_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}

@@ -205,3 +205,39 @@ export async function getListOfChats(token) {
     console.error(err);
   }
 }
+
+// Implementation of /messages/info/id request
+// Returns detailed information about message
+// Required fields - token, id
+// Optional fields - none
+export async function getMessageInfo(token, id) {
+  // Request url
+  const url = BACKEND_URL + '/messages/info/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
