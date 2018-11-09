@@ -31,6 +31,18 @@ export default function reduce(state = initialState, action = {}) {
         fetchingInProgress: false,
         errorMessage: action.errorMessage
       };
+    case types.ADMIN_CREATED:
+    let list = state.list.slice();
+    list.push(action.admin);
+      return {
+        ...state,
+        list
+      };
+    case types.ADMIN_CREATION_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }

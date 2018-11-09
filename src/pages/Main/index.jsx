@@ -12,10 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // Pages
-import CreateAdminPage from './CreateAdminPage';
-import EditAdminPage from './EditAdminPage';
 import ListAdminPage from './ListAdminPage';
-import CreateMessagePage from './CreateMessagePage';
 import ListMessagePage from './ListMessagePage';
 import ListImagePage from './ListImagePage';
 
@@ -103,11 +100,8 @@ class Main extends React.Component {
             <Route exact path='/app' component={ListMessagePage} />
 
             <Route exact path='/app/admins' component={ListAdminPage} />
-            <Route path='/app/admins/create' component={CreateAdminPage} />
-            <Route path='/app/admins/edit' component={EditAdminPage} />
 
             <Route exact path='/app/messages' component={ListMessagePage} />
-            <Route path='/app/messages/create' component={CreateMessagePage} />
 
             <Route path='/app/images' component={ListImagePage} />
           </Switch>

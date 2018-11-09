@@ -299,7 +299,41 @@ export async function deleteMessage(token, id) {
       params: { token }
     });
 
-    console.log(response);
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Implementation of /admins/create
+// Creates new administrator
+// Required fields - token, id
+// Optional fields - none
+export async function createAdmin(token, admin) {
+  // Request url
+  const url = BACKEND_URL + '/admins/create/';
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.post(url, {...admin} ,{
+      params: { token }
+    });
 
     // Check response and return data
     if (response.status == 200) {
