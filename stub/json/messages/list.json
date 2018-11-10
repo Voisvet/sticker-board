@@ -20,6 +20,18 @@
          "this_is_chat_id",
          "this_is_another_chat_id"
       ]
+    },
+    {
+      "id": 2,
+      "type": "periodic",
+      "closest_date": 1541830954273,
+      "payload_type": "file",
+      "chats": [
+        "js_ed",
+        "ops",
+        "this_is_chat_id",
+        "this_is_another_chat_id"
+      ]
     }
   ]
 }

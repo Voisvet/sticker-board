@@ -95,14 +95,14 @@ class Main extends React.Component {
             </Switch>
           </Toolbar>
         </AppBar>
-        <div className={classes.body}>
+        <main className={classes.body}>
           <Switch>
             <Route exact path='/app' component={ListMessagePage} />
             <Route exact path='/app/admins' component={ListAdminPage} />
             <Route exact path='/app/messages' component={ListMessagePage} />
             <Route path='/app/images' component={ListImagePage} />
           </Switch>
-        </div>
+        </main>
       </div>
     );
   };

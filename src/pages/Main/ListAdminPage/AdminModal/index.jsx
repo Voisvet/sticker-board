@@ -9,8 +9,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
-import FormValidator from 'validate-js';
-
 // --------------------------------------------------
 //
 //  Styles section
@@ -174,20 +172,41 @@ class AdminModal extends React.Component {
               />
             </div>
             <div onClick={this.handleAccessLvlOneChange}>
-              <Checkbox checked={this.state.access_lvl_one} />
-              <Typography className={classes.checkboxLabel}>
+              <Checkbox
+                name="access_lvl_one"
+                checked={this.state.access_lvl_one}
+              />
+              <Typography
+                className={classes.checkboxLabel}
+                component="label"
+                for="access_lvl_one"
+              >
                 Can manage administrators
               </Typography>
             </div>
             <div onClick={this.handleAccessLvlTwoChange}>
-              <Checkbox checked={this.state.access_lvl_two}/>
-              <Typography className={classes.checkboxLabel}>
+              <Checkbox
+                checked={this.state.access_lvl_two}
+                name="access_lvl_two"
+              />
+              <Typography
+                className={classes.checkboxLabel}
+                component="label"
+                for="access_lvl_two"
+              >
                 Can manage scheduled messages
               </Typography>
             </div>
             <div onClick={this.handleAccessLvlThreeChange}>
-              <Checkbox checked={this.state.access_lvl_three}/>
-              <Typography className={classes.checkboxLabel}>
+              <Checkbox
+                checked={this.state.access_lvl_three}
+                name="access_lvl_three"
+              />
+              <Typography
+                className={classes.checkboxLabel}
+                component="label"
+                for="access_lvl_three"
+              >
                 Can manage periodic messages
               </Typography>
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import CloudDownload from '@material-ui/icons/CloudDownload';
 import { withStyles } from '@material-ui/core/styles';
 
 // --------------------------------------------------
@@ -46,7 +47,7 @@ const PayloadSwitch = (props) => {
   //
   // ------------------------------
 
-  if (!payload) {
+  if (payload_type !== 'file' && !payload) {
     return (
       <Typography variant='body2'>
         Payload is loading...
@@ -60,6 +61,7 @@ const PayloadSwitch = (props) => {
   //
   // ------------------------------
 
+  console.log(payload_type);
   if (payload_type === 'file') {
     return (
       <Button variant="contained" color="primary" className={classes.button}>
