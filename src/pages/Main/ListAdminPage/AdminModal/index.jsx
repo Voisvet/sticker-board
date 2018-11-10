@@ -130,7 +130,7 @@ class AdminModal extends React.Component {
           className={classes.paper}
         >
           <Typography variant="h5" className={classes.title}>
-            Add new admin
+            {this.props.oldAdmin ? 'Edit admin' : 'Add new admin'}
           </Typography>
           <form>
             <div className={classes.formEntryContainer}>

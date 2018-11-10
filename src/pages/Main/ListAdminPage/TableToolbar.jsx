@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -48,7 +49,8 @@ const TableToolbar = props => {
 
   const { selectedRow, classes,
     deleteClickHandler, editClickHandler,
-    addClickHandler, refrechClickHandler } = props;
+    addClickHandler, refrechClickHandler,
+    progressBarShown } = props;
 
   // ------------------------------
   //
@@ -57,55 +59,58 @@ const TableToolbar = props => {
   // ------------------------------
 
   return (
-    <Toolbar
-      className={classes.root}
-    >
-      <div className={classes.title}>
-        <Typography variant="h6" id="tableTitle">
-          Administrators
-        </Typography>
-      </div>
-      <div className={classes.actions}>
-        <Tooltip title="Add Admin">
-          <IconButton
-            aria-label="Add Admin"
-            onClick={addClickHandler}
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Refresh">
-          <IconButton
-            aria-label="Refresh"
-            onClick={refrechClickHandler}
-          >
-            <Refresh />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Edit">
-          <div className={classes.button}>
+    <div>
+      <Toolbar
+        className={classes.root}
+      >
+        <div className={classes.title}>
+          <Typography variant="h6" id="tableTitle">
+            Administrators
+          </Typography>
+        </div>
+        <div className={classes.actions}>
+          <Tooltip title="Add Admin">
             <IconButton
-            aria-label="Edit"
-            disabled={selectedRow === -1}
-            onClick={() => editClickHandler(selectedRow)}
+              aria-label="Add Admin"
+              onClick={addClickHandler}
             >
-            <Edit />
+              <Add />
             </IconButton>
-          </div>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <div className={classes.button}>
+          </Tooltip>
+          <Tooltip title="Refresh">
             <IconButton
-            aria-label="Delete"
-            disabled={selectedRow === -1}
-            onClick={() => deleteClickHandler(selectedRow)}
+              aria-label="Refresh"
+              onClick={refrechClickHandler}
             >
-            <DeleteIcon />
+              <Refresh />
             </IconButton>
-          </div>
-        </Tooltip>
-      </div>
-    </Toolbar>
+          </Tooltip>
+          <Tooltip title="Edit">
+            <div className={classes.button}>
+              <IconButton
+              aria-label="Edit"
+              disabled={selectedRow === -1}
+              onClick={() => editClickHandler(selectedRow)}
+              >
+              <Edit />
+              </IconButton>
+            </div>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <div className={classes.button}>
+              <IconButton
+              aria-label="Delete"
+              disabled={selectedRow === -1}
+              onClick={() => deleteClickHandler(selectedRow)}
+              >
+              <DeleteIcon />
+              </IconButton>
+            </div>
+          </Tooltip>
+        </div>
+      </Toolbar>
+      { progressBarShown ? <LinearProgress /> : '' }
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 import Refresh from '@material-ui/icons/Refresh';
@@ -46,7 +47,8 @@ const TableToolbar = props => {
   // ------------------------------
 
   const { selectedRow, classes,
-    refrechClickHandler, addClickHandler } = props;
+    refrechClickHandler, addClickHandler,
+    progressBarShown } = props;
 
   // ------------------------------
   //
@@ -55,33 +57,36 @@ const TableToolbar = props => {
   // ------------------------------
 
   return (
-    <Toolbar
-      className={classes.root}
-    >
-      <div className={classes.title}>
-        <Typography variant="h6" id="tableTitle">
-          Messages
-        </Typography>
-      </div>
-      <div className={classes.actions}>
-        <Tooltip title="Refresh">
-          <IconButton
-            aria-label="Refresh"
-            onClick={refrechClickHandler}
-          >
-            <Refresh />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Add Message">
-          <IconButton
-            aria-label="Add Message"
-            onClick={addClickHandler}
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </div>
-    </Toolbar>
+    <div>
+      <Toolbar
+        className={classes.root}
+      >
+        <div className={classes.title}>
+          <Typography variant="h6" id="tableTitle">
+            Messages
+          </Typography>
+        </div>
+        <div className={classes.actions}>
+          <Tooltip title="Refresh">
+            <IconButton
+              aria-label="Refresh"
+              onClick={refrechClickHandler}
+            >
+              <Refresh />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Add Message">
+            <IconButton
+              aria-label="Add Message"
+              onClick={addClickHandler}
+            >
+              <Add />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </Toolbar>
+      { progressBarShown ? <LinearProgress /> : '' }
+    </div>
   );
 };
 

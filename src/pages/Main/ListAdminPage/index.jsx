@@ -119,13 +119,13 @@ class ListAdminPage extends React.Component {
 
     return (
       <div>
-        {this.props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
         <TableToolbar
           selectedRow={this.state.checked}
           deleteClickHandler={this.handleDeleteClick}
           editClickHandler={this.handleEditClick}
           addClickHandler={this.handleAddClick}
           refrechClickHandler={this.handleRefresh}
+          progressBarShown={this.props.fetchingInProgress}
         />
         <Table>
           <TableHead>
