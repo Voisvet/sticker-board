@@ -42,6 +42,11 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         token: undefined
       };
+    case types.LOGIN_FORM_INPUT_INVALID:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }

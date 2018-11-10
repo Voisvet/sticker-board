@@ -22,16 +22,20 @@ const styles = theme => ({
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingTop: '10%'
+    paddingTop: '25vh',
+    paddingBottom: '30vh'
+  },
+  form: {
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
   },
   inputField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 300
+    width: "100%"
   },
   loginButton: {
     marginTop: 24,
-    width: 300
+    width: 300,
+    display: "block"
   }
 })
 
@@ -48,17 +52,17 @@ class Login extends React.Component {
     props.dispatch(actions.fetchTokenFromCookies());
   }
 
-  loginButtonOnClickHandler = () => {
+  loginButtonOnClickHandler = (event) => {
+    event.preventDefault();
     let login = document.getElementById('username-textfield').value;
     let password = document.getElementById('password-textfield').value;
     if (login.length > 0 && password.length > 0) {
       this.props.dispatch(actions.fetchTokenFromServer(login, password));
     } else {
       if (login.length <= 0) {
-        console.log('Ай-яй-яй логин');
-      }
-      if (password.length <= 0) {
-        console.log('Ай-яй-яй пароль');
+        this.props.dispatch(actions.showErrorMessage("Please, enter login"));
+      } else if (password.length <= 0) {
+        this.props.dispatch(actions.showErrorMessage("Please, enter password"));
       }
     }
   }
@@ -79,16 +83,17 @@ class Login extends React.Component {
       <Redirect to="/app" />
     ) : (
       <div className={classes.container}>
-          <Typography variant="h6" color="inherit">
-            TG Bot CP
-          </Typography>
-          {errorMessage}
+        <Typography variant="h6" color="inherit">
+        TG Bot CP
+        </Typography>
+        {errorMessage}
+        <form onSubmit={this.loginButtonOnClickHandler}>
           <TextField
             id="username-textfield"
             className={classes.inputField}
             label="Username"
             margin="normal"
-          />
+          /><br />
           <TextField
             id="password-textfield"
             className={classes.inputField}
@@ -100,10 +105,11 @@ class Login extends React.Component {
             variant="contained"
             color="primary"
             className={classes.loginButton}
-            onClick={this.loginButtonOnClickHandler}
+            type="submit"
           >
             Log In
           </Button>
+        </form>
       </div>
     );
   }

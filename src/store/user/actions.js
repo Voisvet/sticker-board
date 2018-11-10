@@ -56,3 +56,12 @@ export function invalidateToken() {
     });
   };
 }
+
+export function showErrorMessage(error) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.LOGIN_FORM_INPUT_INVALID,
+      errorMessage: error
+    });
+  };
+}
