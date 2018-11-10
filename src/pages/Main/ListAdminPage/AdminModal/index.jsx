@@ -9,6 +9,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+import FormValidator from 'validate-js';
+
 // --------------------------------------------------
 //
 //  Styles section
@@ -64,6 +66,7 @@ class AdminModal extends React.Component {
 
   constructor(props) {
     super(props);
+
     if (props.oldAdmin) {
       this.state = {
         ...props.oldAdmin,
@@ -111,6 +114,11 @@ class AdminModal extends React.Component {
     this.setState({access_lvl_three: !this.state.access_lvl_three});
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.submitHandler(this.state);
+  }
+
   // ------------------------------
   //
   //  Rendering
@@ -118,7 +126,7 @@ class AdminModal extends React.Component {
   // ------------------------------
 
   render() {
-    const { open, classes, closeHandler, submitHandler } = this.props;
+    const { open, classes, closeHandler } = this.props;
 
     return (
       <Modal
@@ -132,7 +140,7 @@ class AdminModal extends React.Component {
           <Typography variant="h5" className={classes.title}>
             {this.props.oldAdmin ? 'Edit admin' : 'Add new admin'}
           </Typography>
-          <form>
+          <form name="admin_form" onSubmit={this.handleSubmit}>
             <div className={classes.formEntryContainer}>
               <TextField
                 value={this.state.name}
@@ -140,6 +148,7 @@ class AdminModal extends React.Component {
                 name="name"
                 className={classes.formEntry}
                 label="Name"
+                required
               />
             </div>
             <div className={classes.formEntryContainer}>
@@ -149,6 +158,8 @@ class AdminModal extends React.Component {
                 name="email"
                 className={classes.formEntry}
                 label="Email"
+                required
+                type="email"
               />
             </div>
             <div className={classes.formEntryContainer}>
@@ -159,6 +170,7 @@ class AdminModal extends React.Component {
                 className={classes.formEntry}
                 label="Password"
                 type="password"
+                required={typeof(this.props.oldAdmin) == 'undefined'}
               />
             </div>
             <div onClick={this.handleAccessLvlOneChange}>
@@ -184,7 +196,7 @@ class AdminModal extends React.Component {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                onClick={() => submitHandler(this.state)}
+                type="submit"
               >
                 Save
               </Button>
