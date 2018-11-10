@@ -8,7 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 
+import TableToolbar from './TableToolbar';
+
 import * as selectors from '../../../store/rekognition/reducer';
+import * as actions from '../../../store/rekognition/actions';
 
 // --------------------------------------------------
 //
@@ -43,6 +46,10 @@ class ListImagePage extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleRefresh = () => {
+    this.props.dispatch(actions.fetchListOfImages());
+  }
+
   // ------------------------------
   //
   //  Render function
@@ -54,7 +61,10 @@ class ListImagePage extends React.Component {
 
     return (
       <div>
-        {this.props.fetchingInProgress ? <p>updating data in progress...</p> : ''}
+        <TableToolbar
+          progressBarShown={this.props.fetchingInProgress}
+          refrechClickHandler={this.handleRefresh}
+        />
         <Table>
           <TableHead>
             <TableRow>
@@ -98,7 +108,7 @@ const ImagesList = (props) => {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map(image => {
           return (
-            <TableRow key={image.id}>
+            <TableRow key={image.id} hover>
               <TableCell>{image.id}</TableCell>
               <TableCell>{image.entities[0].name}</TableCell>
               <TableCell>{image.entities[0].confidence}</TableCell>
