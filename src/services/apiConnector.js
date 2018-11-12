@@ -420,3 +420,75 @@ export async function editAdmin(token, id, admin) {
     console.error(err);
   }
 }
+
+// Implementation of /messages/stickers/recent request
+// Returns list of stickers
+// Required fields - token
+// Optional fields - none
+export async function getListOfRecentlyUsedStickers(token) {
+  // Request url
+  const url = BACKEND_URL + '/messages/stickers/recent';
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Implementation of /messages/stickers/preview/{id} request
+// Returns sticker with specified id
+// Required fields - token, id
+// Oprional fields - none
+export async function getStickerWithId(token, id) {
+  // Request url
+  const url = BACKEND_URL + '/messages/stickers/preview/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}

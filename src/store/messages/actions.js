@@ -125,3 +125,24 @@ export function deleteMessageWithId(id) {
     }
   };
 }
+
+// Fetch stickers list from server
+// And put it in the store
+export function fetchStickers() {
+  return async(dispatch, getState) => {
+    const token = userSelectors.getUserToken(getState());
+    // Send request to the server
+    const resp = await api.getListOfRecentlyUsedStickers(token);
+    if (resp.status_code == 0) {
+      dispatch({
+        type: types.STICKERS_FETCHED,
+        list: resp.list
+      });
+    } else {
+      dispatch({
+        type: types.STICKERS_FETCH_FAILED,
+        errorMessage: resp.error
+      });
+    }
+  };
+}
