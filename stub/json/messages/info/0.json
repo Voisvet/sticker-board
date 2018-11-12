@@ -1,8 +1,13 @@
 {
-   "type": "scheduled",
-   "date": 1540819161661,
-   "periods": [],
-   "chats": [
+  "status_code": 0,
+  "error": "",
+  "message" : {
+    "type": "scheduled",
+    "date": 1540819161661,
+    "periods": [],
+    "chats": [
       "this_is_chat_id"
-   ]
+    ],
+    "payload_type" : "message"
+  }
 }

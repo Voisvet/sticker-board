@@ -12,19 +12,12 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // Pages
-import CreateAdminPage from './CreateAdminPage';
-import EditAdminPage from './EditAdminPage';
 import ListAdminPage from './ListAdminPage';
-
-import CreateMessagePage from './CreateMessagePage';
 import ListMessagePage from './ListMessagePage';
-
 import ListImagePage from './ListImagePage';
 
 // Buttons for app bar
 import MainAppBarButtons from './AppBarButtons';
-import ListMessageAppBarButtons from './ListMessagePage/AppBarButtons';
-import ListAdminAppBarButtons from './ListAdminPage/AppBarButtons';
 
 // Actions for store
 import * as messagesActions from '../../store/messages/actions';
@@ -58,7 +51,7 @@ const styles = {
 
 // --------------------------------------------------
 //
-//  Component section
+//  Main component section
 //
 // --------------------------------------------------
 
@@ -71,6 +64,7 @@ class Main extends React.Component {
       props.dispatch(adminsActions.fetchListOfAdmins());
       props.dispatch(messagesActions.fetchListOfMessages());
       props.dispatch(imagesActions.fetchListOfImages());
+      props.dispatch(messagesActions.fetchListOfChats());
     }
   }
 
@@ -96,23 +90,19 @@ class Main extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow}>
               TG Bot CP
             </Typography>
-            <AppBarButtons />
+            <Switch>
+              <Route exact path='/app' component={MainAppBarButtons} />
+            </Switch>
           </Toolbar>
         </AppBar>
-        <div className={classes.body}>
+        <main className={classes.body}>
           <Switch>
             <Route exact path='/app' component={ListMessagePage} />
-
             <Route exact path='/app/admins' component={ListAdminPage} />
-            <Route path='/app/admins/create' component={CreateAdminPage} />
-            <Route path='/app/admins/edit' component={EditAdminPage} />
-
             <Route exact path='/app/messages' component={ListMessagePage} />
-            <Route path='/app/messages/create' component={CreateMessagePage} />
-
             <Route path='/app/images' component={ListImagePage} />
           </Switch>
-        </div>
+        </main>
       </div>
     );
   };
@@ -143,19 +133,9 @@ const BackArrow = (props) => {
   );
 }
 
-const AppBarButtons = (props) => {
-  return  (
-    <Switch>
-      <Route exact path='/app' component={MainAppBarButtons} />
-      <Route exact path='/app/admins' component={ListAdminAppBarButtons} />
-      <Route exact path='/app/messages' component={ListMessageAppBarButtons} />
-    </Switch>
-  );
-}
-
 // --------------------------------------------------
 //
-//  State-to-props mapping and export section
+//  Composing and export section
 //
 // --------------------------------------------------
 

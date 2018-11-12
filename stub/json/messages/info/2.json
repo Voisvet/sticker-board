@@ -1,0 +1,31 @@
+{
+  "status_code": 0,
+  "error": "",
+  "message": {
+    "type": "periodical",
+    "date": 0,
+    "periods": [
+      {
+        "month": 2,
+        "day": 10,
+        "day_of_week": 0,
+        "hour": 12,
+        "minute": 0
+      },
+      {
+        "month": -1,
+        "day": 0,
+        "day_of_week": 6,
+        "hour": 10,
+        "minute": 35
+      }
+    ],
+    "chats": [
+      "js_ed",
+      "ops",
+      "this_is_chat_id",
+      "this_is_another_chat_id"
+    ],
+    "payload_type": "file"
+  }
+}
