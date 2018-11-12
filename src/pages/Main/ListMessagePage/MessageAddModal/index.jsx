@@ -83,11 +83,13 @@ const styles = theme => ({
   },
   sticker: {
     padding: theme.spacing.unit,
-    width: "100px",
-    height: "100px",
+    width: "175px",
+    height: "175px",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   date: {
     width: "45%",
@@ -122,14 +124,16 @@ class AddMessageModal extends React.Component {
         password: ''
       };
     } else {
+      const date = new Date();
+      console.log(date.getDay() + '.' + date.getMonth() + '.' + date.getYear());
       this.state = {
         type: 'scheduled',
         payload_type: 'message',
         chats: [],
         message_text: '',
         sticker_id: '',
-        date: '',
-        time: ''
+        date: date.getDay() + '.' + date.getMonth() + '.' + date.getYear(),
+        time: (date.getHours() + 1) + ':' + date.getMinutes()
       };
     }
   }
@@ -219,7 +223,9 @@ class AddMessageModal extends React.Component {
         );
         break;
       case 'sticker':
-        payload = (
+        payload = this.state.sticker_id == '' ? (
+          "Choose a sticker"
+        ) : (
           <div className={classes.sticker}>
             <Sticker
               key={this.state.sticker_id}
@@ -318,11 +324,11 @@ class AddMessageModal extends React.Component {
                         </div>
                       )}
                     >
-                      {chats.map(chat => (
+                      {chats ? chats.map(chat => (
                         <MenuItem key={chat.id} value={chat.id} >
                           {chat.name}
                         </MenuItem>
-                      ))}
+                      )) : ''}
                     </Select>
                   </FormControl>
                 </div>
