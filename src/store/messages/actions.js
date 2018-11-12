@@ -174,7 +174,11 @@ export function createMessage(message) {
       if (resp_payload.status_code == 0) {
         dispatch({
           type: types.MESSAGE_CREATED,
-          message: {...message, id: resp_message.id}
+          message: {
+            ...message,
+            id: resp_message.id,
+            closest_date: resp_message.closest_date
+          }
         });
       } else {
         console.log(resp_payload.error);
