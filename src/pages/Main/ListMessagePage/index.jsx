@@ -9,6 +9,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import { withStyles } from '@material-ui/core/styles';
 
 import MessageInfoModal from './MessageInfoModal';
+import MessageAddModal from './MessageAddModal';
 import TableBodyWithMessages from './TableBodyWithMessages';
 import TableToolbar from './TableToolbar';
 
@@ -32,7 +33,8 @@ class ListMessagePage extends React.Component {
   state = {
     rowsPerPage: 10,
     page: 0,
-    modalIsOpen: false
+    infoModalIsOpen: false,
+    addModalIsOpen: false
   }
 
   // ------------------------------
@@ -56,21 +58,29 @@ class ListMessagePage extends React.Component {
           this.props.dispatch(actions.fetchPayloadWithId(id));
         }
       });
-    this.setState({ modalIsOpen: true });
+    this.setState({ infoModalIsOpen: true });
   };
 
-  handleModalClose = () => {
-    this.setState({ modalIsOpen: false });
+  handleInfoModalClose = () => {
+    this.setState({ infoModalIsOpen: false });
   };
 
   handleDeleteMessage = (id) => {
-    this.setState({ modalIsOpen: false });
+    this.setState({ infoModalIsOpen: false });
     this.props.dispatch(actions.deleteMessageWithId(id));
-  }
+  };
 
   handleRefresh = () => {
     this.props.dispatch(actions.fetchListOfMessages());
-  }
+  };
+
+  handleAddClick = () => {
+    this.setState({ addModalIsOpen: true });
+  };
+
+  handleAddModalClose = () => {
+    this.setState({ addModalIsOpen: false });
+  };
 
   // ------------------------------
   //
@@ -87,6 +97,7 @@ class ListMessagePage extends React.Component {
         <TableToolbar
           selectedRow={this.state.checked}
           refrechClickHandler={this.handleRefresh}
+          addClickHandler={this.handleAddClick}
           progressBarShown={this.props.fetchingInProgress}
         />
         <Table>
@@ -118,11 +129,19 @@ class ListMessagePage extends React.Component {
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
         <MessageInfoModal
-          open={this.state.modalIsOpen}
-          closeHandler={this.handleModalClose}
+          open={this.state.infoModalIsOpen}
+          closeHandler={this.handleInfoModalClose}
           deleteHandler={this.handleDeleteMessage}
           message={this.props.currentMessage}
         />
+        { this.state.addModalIsOpen ? (
+          <MessageAddModal
+            chats={this.props.chats}
+            chatIdToNameMap={this.props.mapChatIdToName}
+            open={this.state.addModalIsOpen}
+            closeHandler={this.handleAddModalClose}
+          />
+        ) : ''}
       </div>
     );
   }
@@ -140,6 +159,7 @@ const mapStateToProps = (state) => {
     fetchingInProgress: selectors.getFetchingState(state),
     errorMessage: selectors.getErrorMessage(state),
     mapChatIdToName: selectors.getChatIdToNameMapping(state),
+    chats: selectors.getListOfChats(state),
     currentMessage: selectors.getCurrentMessage(state)
   };
 };

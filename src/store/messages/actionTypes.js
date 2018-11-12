@@ -9,3 +9,5 @@ export const PAYLOAD_FETCHED = 'messages.PAYLOAD_FETCHED';
 export const PAYLOAD_FETCH_FAILED = 'messages.PAYLOAD_FETCH_FAILED';
 export const MESSAGE_DELETED = 'messages.MESSAGE_DELETED';
 export const MESSAGE_DELETION_FAILED = 'messages.MESSAGE_DELETION_FAILED';
+export const STICKERS_FETCHED = 'messages.STICKERS_FETCHED';
+export const STICKERS_FETCH_FAILED = 'messages.STICKERS_FETCH_FAILED';

@@ -11,7 +11,8 @@ const initialState = {
   currentMessage: undefined,
   chats: undefined,
   errorMessage: undefined,
-  fetchingInProgress: false
+  fetchingInProgress: false,
+  stickersList: []
 };
 
 // --------------------------------------------------
@@ -85,6 +86,16 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         errorMessage: action.errorMessage
       };
+    case types.STICKERS_FETCHED:
+      return {
+        ...state,
+        stickersList: action.list
+      };
+    case types.STICKERS_FETCH_FAILED:
+      return {
+        ...state,
+        errorMessage: action.errorMessage
+      };
     default:
       return state;
   }
@@ -126,4 +137,8 @@ export function getChatIdToNameMapping(state) {
     }
   }
   return chatsMapping;
+}
+
+export function getListOfStickers(state) {
+  return state.messages.stickersList;
 }
