@@ -151,7 +151,6 @@ export function fetchStickers() {
 // And update store
 export function createMessage(message) {
   return async(dispatch, getState) => {
-    console.log("Start creating message...");
     const token = userSelectors.getUserToken(getState());
     // Send request to the server
     const resp_message = await api.createMessage(
@@ -161,7 +160,7 @@ export function createMessage(message) {
       message.periods,
       message.chats
     );
-    console.log("Get response 1", resp_message);
+
     if (resp_message.status_code == 0) {
       const resp_payload = await api.updatePayload(
         token,
@@ -170,7 +169,7 @@ export function createMessage(message) {
         message.payload,
         message.file_name
       );
-      console.log("Get response 2", resp_payload);
+      
       if (resp_payload.status_code == 0) {
         dispatch({
           type: types.MESSAGE_CREATED,
