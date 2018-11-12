@@ -43,7 +43,7 @@ export async function getListOfMessages(token, mode=0, amount=undefined, page=un
   try {
     // Send request
     const response = await axios.get(url, {
-      params: { token }
+      params: { token, mode }
     });
 
     // Check response and return data
@@ -80,7 +80,7 @@ export async function getListOfAdmins(token, mode=0, amount=undefined, page=unde
   try {
     // Send request
     const response = await axios.get(url, {
-      params: { token }
+      params: { token, mode }
     });
 
     // Check response and return data
@@ -117,7 +117,7 @@ export async function getListOfImages(token, mode=0, amount=undefined, page=unde
   try {
     // Send request
     const response = await axios.get(url, {
-      params: { token }
+      params: { token, mode }
     });
 
     // Check response and return data
@@ -320,7 +320,7 @@ export async function deleteMessage(token, id) {
 // Optional fields - none
 export async function createAdmin(token, admin) {
   // Request url
-  const url = BACKEND_URL + '/admins/create/';
+  const url = BACKEND_URL + '/admins/create';
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -332,7 +332,8 @@ export async function createAdmin(token, admin) {
   try {
     // Send request
     const response = await axios.post(url, {...admin} ,{
-      params: { token }
+      params: { token },
+      headers: {'Content-Type': 'application/json'}
     });
 
     // Check response and return data
@@ -515,13 +516,15 @@ export async function createMessage(token, type, date, periods, chats) {
       response = await axios.post(url, {
         type, date, chats
       }, {
-        params: { token }
+        params: { token },
+        headers: {'Content-Type': 'application/json'}
       });
     } else {
       response = await axios.post(url, {
         type, periods, chats
       }, {
-        params: { token }
+        params: { token },
+        headers: {'Content-Type': 'application/json'}
       });
     }
 
@@ -536,6 +539,7 @@ export async function createMessage(token, type, date, periods, chats) {
       };
     }
   } catch (err) {
+    console.log(err)
     console.error(err);
   }
 }
