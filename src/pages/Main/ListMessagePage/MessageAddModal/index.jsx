@@ -54,8 +54,8 @@ const styles = theme => ({
     top: "50%",
     left: "50%",
     width: "800px",
-    height: "500px",
-    margin: "-250px 0 0 -400px",
+    height: "600px",
+    margin: "-300px 0 0 -400px",
     padding: 2 * theme.spacing.unit,
   },
   formControl: {
@@ -80,6 +80,21 @@ const styles = theme => ({
     height: "75%",
     width: "100%",
     overflowY: "scroll"
+  },
+  sticker: {
+    padding: theme.spacing.unit,
+    width: "100px",
+    height: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  date: {
+    width: "45%",
+    marginRight: "10%"
+  },
+  time: {
+    width: "45%"
   }
 });
 
@@ -112,7 +127,9 @@ class AddMessageModal extends React.Component {
         payload_type: 'message',
         chats: [],
         message_text: '',
-        sticker_id: ''
+        sticker_id: '',
+        date: '',
+        time: ''
       };
     }
   }
@@ -139,14 +156,40 @@ class AddMessageModal extends React.Component {
     this.setState({message_text: event.target.value});
   };
 
+  handleDateChange = (event) => {
+    this.setState({date: event.target.value});
+  };
+
+  handleTimeChange = (event) => {
+    this.setState({time: event.target.value});
+  };
+
   handleStickerPick = (stickerId) => {
     this.setState({sticker_id: stickerId});
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
-    // this.props.submitHandler(this.state);
+    const message = {};
+
+    // Todo: implement periodical messages
+    if (this.state.type == 'scheduled') {
+      message.type = 'scheduled';
+    } else if (this.state.type == 'periodical') {
+      message.type = 'scheduled';
+    }
+
+    message.date = Date.parse(this.state.date + ' ' + this.state.time);
+    message.chats = this.state.chats;
+
+    message.payload_type = this.state.payload_type;
+    if (this.state.payload_type == 'message') {
+      message.payload = this.state.message_text;
+    } else if (this.state.payload_type == 'sticker') {
+      message.payload = this.state.sticker_id;
+    }
+
+    this.props.submitHandler(message);
   }
 
   // ------------------------------
@@ -177,7 +220,12 @@ class AddMessageModal extends React.Component {
         break;
       case 'sticker':
         payload = (
-          <Sticker stickerId={this.state.sticker_id} />
+          <div className={classes.sticker}>
+            <Sticker
+              key={this.state.sticker_id}
+              stickerId={this.state.sticker_id}
+            />
+          </div>
         );
         break;
       default:
@@ -231,6 +279,27 @@ class AddMessageModal extends React.Component {
                       <MenuItem value="file">File</MenuItem>
                     </Select>
                   </FormControl>
+                </div>
+
+                <div className={classes.formEntryContainer}>
+                  <div className={classes.formControl}>
+                      <TextField
+                        id="date"
+                        label="Date"
+                        type="date"
+                        className={classes.date}
+                        value={this.state.date}
+                        onChange={this.handleDateChange}
+                      />
+                      <TextField
+                        id="time"
+                        label="Time"
+                        type="time"
+                        className={classes.time}
+                        value={this.state.time}
+                        onChange={this.handleTimeChange}
+                      />
+                  </div>
                 </div>
 
                 <div className={classes.formEntryContainer}>

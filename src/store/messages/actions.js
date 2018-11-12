@@ -146,3 +146,49 @@ export function fetchStickers() {
     }
   };
 }
+
+// Create new message on the server
+// And update store
+export function createMessage(message) {
+  return async(dispatch, getState) => {
+    console.log("Start creating message...");
+    const token = userSelectors.getUserToken(getState());
+    // Send request to the server
+    const resp_message = await api.createMessage(
+      token,
+      message.type,
+      message.date,
+      message.periods,
+      message.chats
+    );
+    console.log("Get response 1", resp_message);
+    if (resp_message.status_code == 0) {
+      const resp_payload = await api.updatePayload(
+        token,
+        resp_message.id,
+        message.payload_type,
+        message.payload,
+        message.file_name
+      );
+      console.log("Get response 2", resp_payload);
+      if (resp_payload.status_code == 0) {
+        dispatch({
+          type: types.MESSAGE_CREATED,
+          message: {...message, id: resp_message.id}
+        });
+      } else {
+        console.log(resp_payload.error);
+        dispatch({
+          type: types.STICKERS_FETCH_FAILED,
+          errorMessage: resp_payload.error
+        });
+      }
+    } else {
+      console.log(resp_message.error);
+      dispatch({
+        type: types.STICKERS_FETCH_FAILED,
+        errorMessage: resp_message.error
+      });
+    }
+  };
+}

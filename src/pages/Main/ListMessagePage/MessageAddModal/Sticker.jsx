@@ -15,6 +15,7 @@ const styles = {
 
 class Sticker extends React.Component {
   constructor(props) {
+    console.log("new sticker created");
     super(props);
     this.state = {
       image: undefined

@@ -82,6 +82,11 @@ class ListMessagePage extends React.Component {
     this.setState({ addModalIsOpen: false });
   };
 
+  handleCreateMessage = (message) => {
+    this.setState({ addModalIsOpen: false });
+    this.props.dispatch(actions.createMessage(message));
+  };
+
   // ------------------------------
   //
   //  Render function definition
@@ -140,6 +145,7 @@ class ListMessagePage extends React.Component {
             chatIdToNameMap={this.props.mapChatIdToName}
             open={this.state.addModalIsOpen}
             closeHandler={this.handleAddModalClose}
+            submitHandler={this.handleCreateMessage}
           />
         ) : ''}
       </div>

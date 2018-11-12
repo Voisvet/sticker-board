@@ -492,3 +492,99 @@ export async function getStickerWithId(token, id) {
     console.error(err);
   }
 }
+
+// Implementation of /messages/create request
+// Create new message on the server
+// Required fields - token, id
+// Oprional fields - none
+export async function createMessage(token, type, date, periods, chats) {
+  // Request url
+  const url = BACKEND_URL + '/messages/create';
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    let response = {};
+    if (type === 'scheduled') {
+      response = await axios.post(url, {
+        type, date, chats
+      }, {
+        params: { token }
+      });
+    } else {
+      response = await axios.post(url, {
+        type, periods, chats
+      }, {
+        params: { token }
+      });
+    }
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Implementation of /messages/create request
+// Create new message on the server
+// Required fields - token, id
+// Oprional fields - none
+export async function updatePayload(token, id, payload_type, payload, file_name='') {
+  // Request url
+  const url = BACKEND_URL + '/messages/payload/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    let response = {};
+    if (payload_type === 'file') {
+      // Send file
+      response = await axios.put(url, {
+        payload_type, payload, file_name
+      }, {
+        params: { token }
+      });
+    } else {
+      // Send other kinds of payload
+      response = await axios.put(url, {
+        payload_type, payload
+      }, {
+        params: { token }
+      });
+    }
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}

@@ -96,6 +96,13 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         errorMessage: action.errorMessage
       };
+    case types.MESSAGE_CREATED:
+      let list = state.list.slice();
+      list.push(action.message);
+      return {
+        ...state,
+        list
+      };
     default:
       return state;
   }
