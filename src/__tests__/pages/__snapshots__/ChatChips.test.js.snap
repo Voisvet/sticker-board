@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chat chips render correctly 1`] = `
+Array [
+  <div
+    className="MuiChip-root-2 MuiChip-colorPrimary-3 ChatsChips-chip-1"
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <span
+      className="MuiChip-label-21"
+    >
+      Chat name 1
+    </span>
+  </div>,
+  <div
+    className="MuiChip-root-2 MuiChip-colorPrimary-3 ChatsChips-chip-1"
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <span
+      className="MuiChip-label-21"
+    >
+      Chat name 2
+    </span>
+  </div>,
+  <div
+    className="MuiChip-root-2 MuiChip-colorPrimary-3 ChatsChips-chip-1"
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <span
+      className="MuiChip-label-21"
+    >
+      Another chat name...
+    </span>
+  </div>,
+]
+`;

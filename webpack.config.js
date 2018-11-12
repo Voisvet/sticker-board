@@ -11,7 +11,7 @@ function srcPath(subdir) {
 
 module.exports = {
     mode: "development",
-    entry: ["babel-polyfill", "./src"],
+    entry: ["@babel/polyfill", "./src"],
     output: {
         path: outputDirectory,
         filename: "[name].js",
@@ -64,7 +64,7 @@ module.exports = {
             template: "src/index.html"
         }),
         new webpack.DefinePlugin({
-          BACKEND_URL: '"' + process.env.BACKEND_URL + '"'
+          BACKEND_URL: process.env.BACKEND_URL
         })
     ],
     devServer: {
