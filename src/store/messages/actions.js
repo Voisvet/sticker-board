@@ -24,6 +24,9 @@ export function fetchListOfMessages() {
       });
     } else {
       // If something went wrong, update message in store
+      dispatch({
+        type: types.MESSAGES_FETCH_FAILED
+      });
       dispatch(errorsActions.pushError(resp.error));
     }
   };

@@ -23,6 +23,9 @@ export function fetchListOfAdmins() {
       });
     } else {
       // If something went wrong, update error message in store
+      dispatch({
+        type: types.ADMINS_FETCH_FAILED
+      });
       dispatch(errorsActions.pushError(resp.error));
     }
   };

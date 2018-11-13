@@ -8,7 +8,6 @@ import * as types from './actionTypes';
 
 const initialState = {
   list: [],
-  errorMessage: undefined,
   fetchingInProgress: false
 };
 
@@ -36,8 +35,7 @@ export default function reduce(state = initialState, action = {}) {
     case types.IMAGES_FETCH_FAILED:
       return {
         ...state,
-        fetchingInProgress: false,
-        errorMessage: action.errorMessage
+        fetchingInProgress: false
       };
     default:
       return state;
@@ -56,8 +54,4 @@ export function getListOfImages(state) {
 
 export function getFetchingState(state) {
   return state.rekognition.fetchingInProgress;
-}
-
-export function getErrorMessage(state) {
-  return state.rekognition.errorMessage;
 }

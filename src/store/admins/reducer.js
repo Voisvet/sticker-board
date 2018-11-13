@@ -8,7 +8,6 @@ import * as types from './actionTypes';
 
 const initialState = {
   list: [],
-  errorMessage: undefined,
   fetchingInProgress: false
 };
 
@@ -36,8 +35,7 @@ export default function reduce(state = initialState, action = {}) {
     case types.ADMINS_FETCH_FAILED:
       return {
         ...state,
-        fetchingInProgress: false,
-        errorMessage: action.errorMessage
+        fetchingInProgress: false
       };
     case types.ADMIN_CREATED:
       let list = state.list.slice();
@@ -46,20 +44,10 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         list
       };
-    case types.ADMIN_CREATION_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
-      };
     case types.ADMIN_DELETED:
       return {
         ...state,
         list: state.list.filter(admin => admin.id != action.id)
-      };
-    case types.ADMIN_DELETION_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
       };
     case types.ADMIN_EDITED:
       const editedAdmin = state.list.findIndex(admin => admin.id === action.id);
@@ -68,11 +56,6 @@ export default function reduce(state = initialState, action = {}) {
       return {
         ...state,
         list: newList
-      };
-    case types.ADMIN_EDITING_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
       };
     default:
       return state;
@@ -91,8 +74,4 @@ export function getListOfAdmins(state) {
 
 export function getFetchingState(state) {
   return state.admins.fetchingInProgress;
-}
-
-export function getErrorMessage(state) {
-  return state.admins.errorMessage;
 }

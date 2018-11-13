@@ -236,8 +236,7 @@ rightsToBoolMapping[-1] = [true, true, true];
 const mapStateToProps = (state) => {
   return {
     list: selectors.getListOfAdmins(state),
-    fetchingInProgress: selectors.getFetchingState(state),
-    errorMessage: selectors.getErrorMessage(state)
+    fetchingInProgress: selectors.getFetchingState(state)
   };
 };
 
