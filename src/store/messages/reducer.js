@@ -10,7 +10,6 @@ const initialState = {
   list: [],
   currentMessage: undefined,
   chats: undefined,
-  errorMessage: undefined,
   fetchingInProgress: false,
   stickersList: []
 };
@@ -40,28 +39,17 @@ export default function reduce(state = initialState, action = {}) {
     case types.MESSAGES_FETCH_FAILED:
       return {
         ...state,
-        fetchingInProgress: false,
-        errorMessage: action.errorMessage
+        fetchingInProgress: false
       };
     case types.CHATS_LIST_FETCHED:
       return {
         ...state,
         chats: action.list
       };
-    case types.CHATS_LIST_FETCH_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
-      };
     case types.MESSAGE_WITH_ID_FETCHED:
       return {
         ...state,
         currentMessage: action.message
-      };
-    case types.MESSAGE_WITH_ID_FETCH_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
       };
     case types.PAYLOAD_FETCHED:
       return {
@@ -71,20 +59,22 @@ export default function reduce(state = initialState, action = {}) {
           payload: action.payload
         }
       };
-    case types.PAYLOAD_FETCH_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
-      };
     case types.MESSAGE_DELETED:
       return {
         ...state,
         list: state.list.filter(message => message.id != action.id)
       };
-    case types.MESSAGE_DELETION_FAILED:
+    case types.STICKERS_FETCHED:
       return {
         ...state,
-        errorMessage: action.errorMessage
+        stickersList: action.list
+      };
+    case types.MESSAGE_CREATED:
+      let list = state.list.slice();
+      list.push(action.message);
+      return {
+        ...state,
+        list
       };
     case types.STICKERS_FETCHED:
       return {
@@ -124,10 +114,6 @@ export function getCurrentMessage(state) {
 
 export function getFetchingState(state) {
   return state.messages.fetchingInProgress;
-}
-
-export function getErrorMessage(state) {
-  return state.messages.errorMessage;
 }
 
 export function getListOfChats(state) {

@@ -165,7 +165,6 @@ const mapStateToProps = (state) => {
   return {
     list: selectors.getListOfMessages(state),
     fetchingInProgress: selectors.getFetchingState(state),
-    errorMessage: selectors.getErrorMessage(state),
     mapChatIdToName: selectors.getChatIdToNameMapping(state),
     chats: selectors.getListOfChats(state),
     currentMessage: selectors.getCurrentMessage(state)

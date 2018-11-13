@@ -20,7 +20,10 @@ export async function login(login, password) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -57,7 +60,10 @@ export async function getListOfMessages(token, mode=0, amount=undefined, page=un
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -94,7 +100,10 @@ export async function getListOfAdmins(token, mode=0, amount=undefined, page=unde
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -131,7 +140,10 @@ export async function getListOfImages(token, mode=0, amount=undefined, page=unde
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -166,7 +178,10 @@ export async function logout(token) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -202,7 +217,10 @@ export async function getListOfChats(token) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -238,7 +256,10 @@ export async function getMessageInfo(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -274,7 +295,10 @@ export async function getMessagePayload(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -310,7 +334,10 @@ export async function deleteMessage(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -347,7 +374,10 @@ export async function createAdmin(token, admin) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -383,7 +413,10 @@ export async function deleteAdmin(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -418,7 +451,192 @@ export async function editAdmin(token, id, admin) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
+  }
+}
+
+// Implementation of /messages/stickers/recent request
+// Returns list of stickers
+// Required fields - token
+// Optional fields - none
+export async function getListOfRecentlyUsedStickers(token) {
+  // Request url
+  const url = BACKEND_URL + '/messages/stickers/recent';
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
+  }
+}
+
+// Implementation of /messages/stickers/preview/{id} request
+// Returns sticker with specified id
+// Required fields - token, id
+// Oprional fields - none
+export async function getStickerWithId(token, id) {
+  // Request url
+  const url = BACKEND_URL + '/messages/stickers/preview/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    const response = await axios.get(url, {
+      params: { token }
+    });
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
+  }
+}
+
+// Implementation of /messages/create request
+// Create new message on the server
+// Required fields - token, id
+// Oprional fields - none
+export async function createMessage(token, type, date, periods, chats) {
+  // Request url
+  const url = BACKEND_URL + '/messages/create';
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    let response = {};
+    if (type === 'scheduled') {
+      response = await axios.post(url, {
+        type, date, chats
+      }, {
+        params: { token },
+        headers: {'Content-Type': 'application/json'}
+      });
+    } else {
+      response = await axios.post(url, {
+        type, periods, chats
+      }, {
+        params: { token },
+        headers: {'Content-Type': 'application/json'}
+      });
+    }
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
+  }
+}
+
+// Implementation of /messages/create request
+// Create new message on the server
+// Required fields - token, id
+// Oprional fields - none
+export async function updatePayload(token, id, payload_type, payload, file_name='') {
+  // Request url
+  const url = BACKEND_URL + '/messages/payload/' + id;
+  //Check token
+  if (typeof(token) != 'string' || token.length <= 0) {
+    return {
+      status_code: -1,
+      error: 'What are you doing? Token is missing.'
+    };
+  }
+
+  try {
+    // Send request
+    let response = {};
+    if (payload_type === 'file') {
+      // Send file
+      response = await axios.put(url, {
+        payload_type, payload, file_name
+      }, {
+        params: { token }
+      });
+    } else {
+      // Send other kinds of payload
+      response = await axios.put(url, {
+        payload_type, payload
+      }, {
+        params: { token }
+      });
+    }
+
+    // Check response and return data
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      return {
+        status_code: -1,
+        error: 'Something went wrong... Server returned code '
+                + response.status
+      };
+    }
+  } catch (err) {
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 

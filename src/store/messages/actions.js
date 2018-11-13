@@ -2,6 +2,7 @@ import * as api from '../../services/apiConnector';
 import * as types from './actionTypes';
 import * as userSelectors from '../user/reducer';
 
+import * as errorsActions from '../errors/actions';
 
 // Fetch list of messages from server
 // And save it to redux store
@@ -24,9 +25,9 @@ export function fetchListOfMessages() {
     } else {
       // If something went wrong, update message in store
       dispatch({
-        type: types.MESSAGES_FETCH_FAILED,
-        errorMessage: resp.error
+        type: types.MESSAGES_FETCH_FAILED
       });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -46,10 +47,7 @@ export function fetchListOfChats() {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.CHATS_LIST_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -72,10 +70,7 @@ export function fetchMessageWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.MESSAGE_WITH_ID_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -95,10 +90,7 @@ export function fetchPayloadWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.PAYLOAD_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -118,10 +110,66 @@ export function deleteMessageWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
+      dispatch(errorsActions.pushError(resp.error));
+    }
+  };
+}
+
+// Fetch stickers list from server
+// And put it in the store
+export function fetchStickers() {
+  return async(dispatch, getState) => {
+    const token = userSelectors.getUserToken(getState());
+    // Send request to the server
+    const resp = await api.getListOfRecentlyUsedStickers(token);
+    if (resp.status_code == 0) {
       dispatch({
-        type: types.MESSAGE_DELETION_FAILED,
-        errorMessage: resp.error
+        type: types.STICKERS_FETCHED,
+        list: resp.list
       });
+    } else {
+      dispatch(errorsActions.pushError(resp.error));
+    }
+  };
+}
+
+// Create new message on the server
+// And update store
+export function createMessage(message) {
+  return async(dispatch, getState) => {
+    const token = userSelectors.getUserToken(getState());
+    // Send request to the server
+    const resp_message = await api.createMessage(
+      token,
+      message.type,
+      message.date,
+      message.periods,
+      message.chats
+    );
+
+    if (resp_message.status_code == 0) {
+      const resp_payload = await api.updatePayload(
+        token,
+        resp_message.id,
+        message.payload_type,
+        message.payload,
+        message.file_name
+      );
+
+      if (resp_payload.status_code == 0) {
+        dispatch({
+          type: types.MESSAGE_CREATED,
+          message: {
+            ...message,
+            id: resp_message.id,
+            closest_date: resp_message.closest_date
+          }
+        });
+      } else {
+        dispatch(errorsActions.pushError(resp_payload.error));
+      }
+    } else {
+      dispatch(errorsActions.pushError(resp_message.error));
     }
   };
 }

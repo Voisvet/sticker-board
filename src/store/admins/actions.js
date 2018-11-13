@@ -1,6 +1,7 @@
 import * as api from '../../services/apiConnector';
 import * as types from './actionTypes';
 import * as userSelectors from '../user/reducer';
+import * as errorsActions from '../errors/actions';
 
 // Fetching list of administrators from server
 // And adding it in our redux store
@@ -23,9 +24,9 @@ export function fetchListOfAdmins() {
     } else {
       // If something went wrong, update error message in store
       dispatch({
-        type: types.ADMINS_FETCH_FAILED,
-        errorMessage: resp.error
+        type: types.ADMINS_FETCH_FAILED
       });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -62,10 +63,7 @@ export function createNewAdmin(form_data) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.ADMIN_CREATION_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -87,10 +85,7 @@ export function deleteAdminWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.ADMIN_DELETION_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -99,7 +94,7 @@ export function deleteAdminWithId(id) {
 // And update it in redux store in case of success
 export function editAdminWithId(id, form_data) {
   return async(dispatch, getState) => {
-    
+
     const token = userSelectors.getUserToken(getState());
     // Send request to server
 
@@ -135,10 +130,7 @@ export function editAdminWithId(id, form_data) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.ADMIN_EDITING_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }

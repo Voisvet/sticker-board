@@ -1,6 +1,8 @@
 import * as api from '../../services/apiConnector';
 import * as types from './actionTypes';
 
+import * as errorsActions from '../errors/actions';
+
 // Fetch list of images from server
 // And save it in redux store
 export function fetchListOfImages() {
@@ -22,9 +24,9 @@ export function fetchListOfImages() {
     } else {
       // If something went wrong, update error message in store
       dispatch({
-        type: types.IMAGES_FETCH_FAILED,
-        errorMessage: resp.error
+        type: types.IMAGES_FETCH_FAILED
       });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }

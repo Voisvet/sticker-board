@@ -126,8 +126,7 @@ const ImagesList = (props) => {
 const mapStateToProps = (state) => {
   return {
     list: selectors.getListOfImages(state),
-    fetchingInProgress: selectors.getFetchingState(state),
-    errorMessage: selectors.getErrorMessage(state)
+    fetchingInProgress: selectors.getFetchingState(state)
   };
 };
 
