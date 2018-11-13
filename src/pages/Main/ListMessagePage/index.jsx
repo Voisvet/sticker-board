@@ -72,7 +72,8 @@ class ListMessagePage extends React.Component {
 
   handleRefresh = () => {
     this.props.dispatch(actions.fetchListOfMessages());
-    this.props.dispatch(messagesActions.fetchListOfChats());
+    this.props.dispatch(actions.fetchListOfChats());
+    this.props.dispatch(actions.fetchStickers());
   };
 
   handleAddClick = () => {
