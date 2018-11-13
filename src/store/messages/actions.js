@@ -2,6 +2,7 @@ import * as api from '../../services/apiConnector';
 import * as types from './actionTypes';
 import * as userSelectors from '../user/reducer';
 
+import * as errorsActions from '../errors/actions';
 
 // Fetch list of messages from server
 // And save it to redux store
@@ -23,10 +24,7 @@ export function fetchListOfMessages() {
       });
     } else {
       // If something went wrong, update message in store
-      dispatch({
-        type: types.MESSAGES_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -46,10 +44,7 @@ export function fetchListOfChats() {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.CHATS_LIST_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -72,10 +67,7 @@ export function fetchMessageWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.MESSAGE_WITH_ID_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -95,10 +87,7 @@ export function fetchPayloadWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.PAYLOAD_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -118,10 +107,7 @@ export function deleteMessageWithId(id) {
       });
     } else {
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.MESSAGE_DELETION_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -139,10 +125,7 @@ export function fetchStickers() {
         list: resp.list
       });
     } else {
-      dispatch({
-        type: types.STICKERS_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
@@ -169,7 +152,7 @@ export function createMessage(message) {
         message.payload,
         message.file_name
       );
-      
+
       if (resp_payload.status_code == 0) {
         dispatch({
           type: types.MESSAGE_CREATED,
@@ -180,18 +163,10 @@ export function createMessage(message) {
           }
         });
       } else {
-        console.log(resp_payload.error);
-        dispatch({
-          type: types.STICKERS_FETCH_FAILED,
-          errorMessage: resp_payload.error
-        });
+        dispatch(errorsActions.pushError(resp_payload.error));
       }
     } else {
-      console.log(resp_message.error);
-      dispatch({
-        type: types.STICKERS_FETCH_FAILED,
-        errorMessage: resp_message.error
-      });
+      dispatch(errorsActions.pushError(resp_message.error));
     }
   };
 }

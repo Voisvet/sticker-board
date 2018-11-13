@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 import * as api from '../../services/apiConnector';
 import * as types from './actionTypes';
 
+import * as errorsActions from '../errors/actions';
+
 // Look up for token in cookies
 // and save it in redux store
 export function fetchTokenFromCookies() {
@@ -36,12 +38,8 @@ export function fetchTokenFromServer(login, password) {
         token: resp.token
       });
     } else {
-      console.log(resp);
       // If something went wrong, update error message in store
-      dispatch({
-        type: types.TOKEN_FETCH_FAILED,
-        errorMessage: resp.error
-      });
+      dispatch(errorsActions.pushError(resp.error));
     }
   };
 }
