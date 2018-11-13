@@ -81,18 +81,6 @@ export default function reduce(state = initialState, action = {}) {
         ...state,
         stickersList: action.list
       };
-    case types.STICKERS_FETCH_FAILED:
-      return {
-        ...state,
-        errorMessage: action.errorMessage
-      };
-    case types.MESSAGE_CREATED:
-      let list = state.list.slice();
-      list.push(action.message);
-      return {
-        ...state,
-        list
-      };
     default:
       return state;
   }
