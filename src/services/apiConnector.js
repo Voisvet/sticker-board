@@ -20,7 +20,10 @@ export async function login(login, password) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -57,7 +60,10 @@ export async function getListOfMessages(token, mode=0, amount=undefined, page=un
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -94,7 +100,10 @@ export async function getListOfAdmins(token, mode=0, amount=undefined, page=unde
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -131,7 +140,10 @@ export async function getListOfImages(token, mode=0, amount=undefined, page=unde
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -166,7 +178,10 @@ export async function logout(token) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -202,7 +217,10 @@ export async function getListOfChats(token) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -238,7 +256,10 @@ export async function getMessageInfo(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -274,7 +295,10 @@ export async function getMessagePayload(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -310,7 +334,10 @@ export async function deleteMessage(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -347,7 +374,10 @@ export async function createAdmin(token, admin) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -383,7 +413,10 @@ export async function deleteAdmin(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -418,7 +451,10 @@ export async function editAdmin(token, id, admin) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -454,7 +490,10 @@ export async function getListOfRecentlyUsedStickers(token) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -490,7 +529,10 @@ export async function getStickerWithId(token, id) {
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -539,8 +581,10 @@ export async function createMessage(token, type, date, periods, chats) {
       };
     }
   } catch (err) {
-    console.log(err)
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }
 
@@ -589,6 +633,9 @@ export async function updatePayload(token, id, payload_type, payload, file_name=
       };
     }
   } catch (err) {
-    console.error(err);
+    return {
+      status_code: -1,
+      error: 'Something went wrong... ' + err
+    };
   }
 }

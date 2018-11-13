@@ -36,6 +36,7 @@ export function fetchTokenFromServer(login, password) {
         token: resp.token
       });
     } else {
+      console.log(resp);
       // If something went wrong, update error message in store
       dispatch({
         type: types.TOKEN_FETCH_FAILED,
