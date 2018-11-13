@@ -1,3 +1,17 @@
+/*
+ *
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ * NEED REFACTORING!!!
+ *
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -14,10 +28,16 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
 
 import StickerPicker from './StickerPicker';
 import Sticker from './Sticker';
+import PeriodsList from '../MessageInfoModal/PeriodsList';
 
 import * as selectors from '../../../../store/messages/reducer';
 import * as actions from '../../../../store/messages/actions';
@@ -51,11 +71,11 @@ const styles = theme => ({
   },
   paper: {
     position: "absolute",
-    top: "50%",
+    top: "5%",
     left: "50%",
     width: "800px",
-    height: "600px",
-    margin: "-300px 0 0 -400px",
+    minHeight: "700px",
+    margin: "0 0 0 -400px",
     padding: 2 * theme.spacing.unit,
   },
   formControl: {
@@ -83,8 +103,8 @@ const styles = theme => ({
   },
   sticker: {
     padding: theme.spacing.unit,
-    width: "175px",
-    height: "175px",
+    width: "275px",
+    height: "275px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -97,6 +117,12 @@ const styles = theme => ({
   },
   time: {
     width: "45%"
+  },
+  topMargin: {
+    marginTop: theme.spacing.unit
+  },
+  inputInDialog: {
+    width: "200px"
   }
 });
 
@@ -124,17 +150,22 @@ class AddMessageModal extends React.Component {
         password: ''
       };
     } else {
-      const date = new Date();
-      console.log(date.getDay() + '.' + date.getMonth() + '.' + date.getYear());
+      const date = new Date(Date.now() + 3600000);
       this.state = {
         type: 'scheduled',
         payload_type: 'message',
         chats: [],
         message_text: '',
         sticker_id: '',
-        date: date.getDay() + '.' + date.getMonth() + '.' + date.getYear(),
-        time: (date.getHours() + 1) + ':' + date.getMinutes()
+        periods: [],
+        date: date.getFullYear() + '-'
+          + ((date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1))
+          + '-' + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()),
+        time:
+            (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ':'
+          + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())
       };
+      console.log(this.state.time);
     }
   }
 
@@ -172,16 +203,41 @@ class AddMessageModal extends React.Component {
     this.setState({sticker_id: stickerId});
   };
 
+  handlePeriodSave = (period) => {
+    let periods = this.state.periods.slice();
+    periods.push({
+      ...period,
+      hour: +period.hour,
+      minute: +period.minute
+    });
+    this.setState({periods});
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    const message = {};
+
+    const periods = this.state.periods.map(period => {
+      const newPeriod = {
+        hour: period.hour,
+        minute: period.minute
+      };
+      if (period.month != 0) {
+        newPeriod.month = period.month;
+      }
+      if (period.day_of_week != 0) {
+        newPeriod.day_of_week = period.day_of_week - 1;
+      }
+      if (period.day != 0) {
+        newPeriod.day = period.day;
+      }
+
+      return newPeriod;
+    });
+
+    const message = {periods};
 
     // Todo: implement periodical messages
-    if (this.state.type == 'scheduled') {
-      message.type = 'scheduled';
-    } else if (this.state.type == 'periodical') {
-      message.type = 'scheduled';
-    }
+    message.type = this.state.type;
 
     message.date = Date.parse(this.state.date + ' ' + this.state.time);
     message.chats = this.state.chats;
@@ -205,39 +261,6 @@ class AddMessageModal extends React.Component {
   render() {
     const { open, classes, closeHandler, chats, chatIdToNameMap } = this.props;
 
-    let payload = '';
-    switch (this.state.payload_type) {
-      case 'message':
-        payload = (
-          <TextField
-            id="payload"
-            label="Message Text"
-            multiline
-            rows="5"
-            className={classes.formEntry}
-            margin="normal"
-            variant="outlined"
-            value={this.state.message_text}
-            onChange={this.handleMessageTextChange}
-          />
-        );
-        break;
-      case 'sticker':
-        payload = this.state.sticker_id == '' ? (
-          "Choose a sticker"
-        ) : (
-          <div className={classes.sticker}>
-            <Sticker
-              key={this.state.sticker_id}
-              stickerId={this.state.sticker_id}
-            />
-          </div>
-        );
-        break;
-      default:
-        payload = "Not supported yet.";
-    }
-
     return (
       <Modal
         open={open}
@@ -247,12 +270,12 @@ class AddMessageModal extends React.Component {
           elevation={5}
           className={classes.paper}
         >
+        <form name="admin_form" onSubmit={this.handleSubmit}>
           <Grid container spacing={16}>
             <Grid item xs={6}>
               <Typography variant="h5" className={classes.title}>
                 {this.props.oldAdmin ? 'Edit message' : 'Add new message'}
               </Typography>
-              <form name="admin_form" onSubmit={this.handleSubmit}>
                 <div className={classes.formEntryContainer}>
                   <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="message-type">Message Type</InputLabel>
@@ -286,28 +309,6 @@ class AddMessageModal extends React.Component {
                     </Select>
                   </FormControl>
                 </div>
-
-                <div className={classes.formEntryContainer}>
-                  <div className={classes.formControl}>
-                      <TextField
-                        id="date"
-                        label="Date"
-                        type="date"
-                        className={classes.date}
-                        value={this.state.date}
-                        onChange={this.handleDateChange}
-                      />
-                      <TextField
-                        id="time"
-                        label="Time"
-                        type="time"
-                        className={classes.time}
-                        value={this.state.time}
-                        onChange={this.handleTimeChange}
-                      />
-                  </div>
-                </div>
-
                 <div className={classes.formEntryContainer}>
                   <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="chats">Chats</InputLabel>
@@ -332,32 +333,273 @@ class AddMessageModal extends React.Component {
                     </Select>
                   </FormControl>
                 </div>
-
-                <div className={classes.formEntryContainer}>
-                  {payload}
-                </div>
-
-                <div className={classes.formEntryContainer}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    type="submit"
-                  >
-                    Save
-                  </Button>
-                </div>
-              </form>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6" className={classes.title}>
+                Date
+              </Typography>
+              <DatePickerSwitch
+                classes={classes}
+                date={this.state.date}
+                time={this.state.time}
+                handleDateChange={this.handleDateChange}
+                handleTimeChange={this.handleTimeChange}
+                type={this.state.type}
+                periods={this.state.periods}
+                saveHandler={this.handlePeriodSave}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6" className={classes.title}>
+                Payload
+              </Typography>
+              <div className={classes.formEntryContainer}>
+                <PayloadSwitch
+                  classes={classes}
+                  payloadType={this.state.payload_type}
+                  messageText={this.state.message_text}
+                  messageChangeHandler={this.handleMessageTextChange}
+                  stickerId={this.state.sticker_id}
+                />
+              </div>
             </Grid>
             <Grid item xs={6}>
               <StickerPicker clickHandler={this.handleStickerPick}/>
             </Grid>
+            <Grid item xs={12}>
+            <div className={classes.formEntryContainer}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                type="submit"
+              >
+                Save
+              </Button>
+            </div>
+            </Grid>
           </Grid>
+          </form>
         </Paper>
       </Modal>
     );
   };
 };
+
+class DatePickerSwitch extends React.Component {
+  state = {
+    dialogIsOpened: false,
+    month: 0,
+    day_of_week: 0,
+    day: 0,
+    hour: '00',
+    minute: '00'
+  };
+
+  handleDialogOpen = () => {
+    this.setState({ dialogIsOpened: true });
+  };
+
+  handleDialogClose = () => {
+    this.setState({ dialogIsOpened: false });
+  };
+
+  handleMonthChange = (event) => {
+    this.setState({month: event.target.value});
+  };
+
+  handleDayOfWeekChange = (event) => {
+    this.setState({day_of_week: event.target.value});
+  };
+
+  handleDayChange = (event) => {
+    this.setState({day: event.target.value});
+  };
+
+  handleTimeChange = (event) => {
+    this.setState({
+      hour: event.target.value.split(':')[0],
+      minute: event.target.value.split(':')[1]
+    });
+  };
+
+  handleAdd = () => {
+    this.setState({dialogIsOpened: false})
+    this.props.saveHandler({
+      ...this.state,
+      dialogIsOpened: undefined
+    });
+  }
+
+  render() {
+    if (this.props.type == 'scheduled'){
+      return (
+        <div className={this.props.classes.formEntryContainer}>
+          <div className={this.props.classes.formControl}>
+              <TextField
+                id="date"
+                label="Date"
+                type="date"
+                className={this.props.classes.date}
+                value={this.props.date}
+                onChange={this.props.handleDateChange}
+              />
+              <TextField
+                id="time"
+                label="Time"
+                type="time"
+                className={this.props.classes.time}
+                value={this.props.time}
+                onChange={this.props.handleTimeChange}
+              />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <PeriodsList periods={this.props.periods} />
+          <div className={this.props.classes.formEntryContainer}>
+            <div className={this.props.classes.formControl}>
+              <Button
+                color="primary"
+                className={this.props.classes.button}
+                onClick={this.handleDialogOpen}
+              >
+                Add Period
+              </Button>
+            </div>
+          </div>
+          <Dialog
+            open={this.state.dialogIsOpened}
+            onClose={this.handleDialogClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">Add Period</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Every
+                <div className={this.props.classes.topMargin}>
+                <FormControl>
+                  <InputLabel htmlFor="day-of-week">Day of week</InputLabel>
+                  <Select
+                    value={this.state.day_of_week}
+                    onChange={this.handleDayOfWeekChange}
+                    inputProps={{id: 'day-of-week'}}
+                    className={this.props.classes.inputInDialog}
+                  >
+                    <MenuItem value={0}>Any day of week</MenuItem>
+                    <MenuItem value={1}>Monday</MenuItem>
+                    <MenuItem value={2}>Tuesday</MenuItem>
+                    <MenuItem value={3}>Wednesday</MenuItem>
+                    <MenuItem value={4}>Thursday</MenuItem>
+                    <MenuItem value={5}>Friday</MenuItem>
+                    <MenuItem value={6}>Saturday</MenuItem>
+                    <MenuItem value={7}>Sunday</MenuItem>
+                  </Select>
+                </FormControl>
+                </div>
+                <div className={this.props.classes.topMargin}>
+                <TextField
+                  autoFocus
+                  id="day"
+                  label="Day"
+                  value={this.state.day}
+                  onChange={this.handleDayChange}
+                  className={this.props.classes.inputInDialog}
+                />
+                </div>
+                <div className={this.props.classes.topMargin}>
+                of
+                </div>
+                <div className={this.props.classes.topMargin}>
+                <FormControl>
+                  <InputLabel htmlFor="month">Month</InputLabel>
+                  <Select
+                    value={this.state.month}
+                    onChange={this.handleMonthChange}
+                    inputProps={{id: 'month'}}
+                    className={this.props.classes.inputInDialog}
+                  >
+                    <MenuItem value={0}>Any month</MenuItem>
+                    <MenuItem value={1}>January</MenuItem>
+                    <MenuItem value={2}>Febrary</MenuItem>
+                    <MenuItem value={3}>March</MenuItem>
+                    <MenuItem value={4}>April</MenuItem>
+                    <MenuItem value={5}>May</MenuItem>
+                    <MenuItem value={6}>June</MenuItem>
+                    <MenuItem value={7}>Jule</MenuItem>
+                    <MenuItem value={8}>August</MenuItem>
+                    <MenuItem value={9}>September</MenuItem>
+                    <MenuItem value={10}>October</MenuItem>
+                    <MenuItem value={11}>November</MenuItem>
+                    <MenuItem value={12}>December</MenuItem>
+                  </Select>
+                </FormControl>
+                </div>
+                <div className={this.props.classes.topMargin}>
+                at
+                </div>
+                <div className={this.props.classes.topMargin}>
+                <TextField
+                  id="time"
+                  label="Time"
+                  type="time"
+                  value={this.state.hour + ':' + this.state.minute}
+                  onChange={this.handleTimeChange}
+                  className={this.props.classes.inputInDialog}
+                />
+                </div>
+              </DialogContentText>
+
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleDialogClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={this.handleAdd} color="primary">
+                Add
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      );
+    }
+  }
+}
+
+const PayloadSwitch = (props) => {
+  switch (props.payloadType) {
+    case 'message':
+      return (
+        <TextField
+          id="payload"
+          label="Message Text"
+          multiline
+          rows="13"
+          className={props.classes.formEntry}
+          margin="normal"
+          variant="outlined"
+          value={props.messageText}
+          onChange={props.messageChangeHandler}
+        />
+      );
+    case 'sticker':
+      return props.stickerId == '' ? (
+        "Choose a sticker"
+      ) : (
+        <div className={props.classes.sticker}>
+          <Sticker
+            key={props.stickerId}
+            stickerId={props.stickerId}
+          />
+        </div>
+      );
+    default:
+      return "Not supported yet.";
+  }
+}
+
 
 // --------------------------------------------------
 //

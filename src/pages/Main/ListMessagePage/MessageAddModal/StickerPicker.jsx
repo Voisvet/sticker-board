@@ -29,7 +29,7 @@ const styles = theme => ({
     width: "100%"
   },
   stickersList: {
-    height: "70%",
+    height: "240px",
     width: "100%",
     overflowY: "scroll",
     display: "flex",
@@ -94,11 +94,11 @@ class StickerPicker extends React.Component {
               </div>
             );
           }) : (
-            <div className={classes.sticker}>
-              <Sticker
-                stickerId={this.state.idForSearch}
-                onClick={() => clickHandler(this.state.idForSearch)}
-              />
+            <div
+              className={classes.sticker}
+              onClick={() => clickHandler(this.state.idForSearch)}
+            >
+              <Sticker stickerId={this.state.idForSearch} />
             </div>
           ) }
         </div>
