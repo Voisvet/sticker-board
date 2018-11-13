@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 
 // Add new error to error queue
-export function pushError(error) {
+export function pushError(errorMessage) {
   return {
     type: types.ERROR_PUSHED,
     errorMessage
