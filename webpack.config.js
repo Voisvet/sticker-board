@@ -32,6 +32,11 @@ module.exports = {
                 }
             },
             {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                loader: "awesome-typescript-loader"
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader',
@@ -42,12 +47,13 @@ module.exports = {
                             importLoaders: 1,
                             camelCase: true
                         }
-                    }]
+                    }
+                ]
             }
         ]
     },
     resolve: {
-        extensions: ['.js', '.json', '.jsx', '.css']
+        extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css']
     },
     devtool: "source-map",
     plugins: [

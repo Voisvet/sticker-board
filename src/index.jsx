@@ -28,10 +28,6 @@ const theme = createMuiTheme({
       dark: '#b01f39',
       contrastText: '#7f0000'
     },
-    // error: will use the default color
-    typography: {
-      useNextVariants: true
-    }
   }
 });
 
