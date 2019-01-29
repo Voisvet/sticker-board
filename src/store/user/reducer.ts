@@ -1,4 +1,4 @@
-import * as types from './actionTypes.js';
+import * as types from './actionTypes';
 
 // --------------------------------------------------
 //
@@ -12,13 +12,25 @@ const initialState = {
   fetchingInProgress: false
 };
 
+export interface State {
+  token?: string;
+  errorMessage?: string;
+  fetchingInProgress: boolean;
+}
+
+interface Action {
+  type: string;
+  token?: string;
+  errorMessage?: string;
+}
+
 // --------------------------------------------------
 //
 //  Reducer for this part
 //
 // --------------------------------------------------
 
-export default function reduce(state = initialState, action = {}) {
+export default function reduce(state: State = initialState, action: Action): State {
   switch (action.type) {
     case types.TOKEN_FETCHED:
       return {
@@ -58,14 +70,14 @@ export default function reduce(state = initialState, action = {}) {
 //
 // --------------------------------------------------
 
-export function getUserToken(state) {
+export function getUserToken(state: {user: State}): string {
   return state.user.token;
 }
 
-export function getFetchingState(state) {
+export function getFetchingState(state: {user: State}): boolean {
   return state.user.fetchingInProgress;
 }
 
-export function getErrorMessage(state) {
+export function getErrorMessage(state: {user: State}): string {
   return state.user.errorMessage;
 }

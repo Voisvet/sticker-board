@@ -1,11 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
 import * as actions from '../../store/user/actions';
 import * as selectors from '../../store/user/reducer';
@@ -16,7 +16,7 @@ import * as selectors from '../../store/user/reducer';
 //
 // --------------------------------------------------
 
-const styles = theme => ({
+const styles: StyleRulesCallback<"container" | "form" | "inputField" | "loginButton"> = theme => ({
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -45,17 +45,30 @@ const styles = theme => ({
 //
 // --------------------------------------------------
 
+interface LoginProps {
+  dispatch: Function;
+  errorMessage: string;
+  token: string;
+  fetchingInProgress: boolean;
+  classes: {
+    container: string,
+    form: string,
+    inputField: string,
+    loginButton: string
+  };
+}
 
-class Login extends React.Component {
-  constructor(props) {
+
+class Login extends React.Component<LoginProps> {
+  constructor(props: LoginProps) {
     super(props);
     props.dispatch(actions.fetchTokenFromCookies());
   }
 
   loginButtonOnClickHandler = (event) => {
     event.preventDefault();
-    let login = document.getElementById('username-textfield').value;
-    let password = document.getElementById('password-textfield').value;
+    let login = (document.getElementById('username-textfield') as HTMLInputElement).value;
+    let password = (document.getElementById('password-textfield') as HTMLInputElement).value;
     if (login.length > 0 && password.length > 0) {
       this.props.dispatch(actions.fetchTokenFromServer(login, password));
     } else {
@@ -71,7 +84,7 @@ class Login extends React.Component {
     const { classes } = this.props;
 
     let errorMessage = this.props.errorMessage ? (
-      <Typography variant="caption" color="inherit" color="secondary">
+      <Typography variant="caption" color="secondary">
         {this.props.errorMessage}
       </Typography>
     ) : '';
@@ -121,7 +134,7 @@ class Login extends React.Component {
 //
 // --------------------------------------------------
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: {user: selectors.State}) => {
   return {
     token: selectors.getUserToken(state),
     fetchingInProgress: selectors.getFetchingState(state),

@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 
 import * as api from '../../services/apiConnector';
 import * as types from './actionTypes';
@@ -7,8 +7,8 @@ import * as errorsActions from '../errors/actions';
 
 // Look up for token in cookies
 // and save it in redux store
-export function fetchTokenFromCookies() {
-  return (dispatch, getState) => {
+export function fetchTokenFromCookies(): Function {
+  return (dispatch: Function, getState: Function) => {
     let token = Cookies.get('user-token');
     if (typeof(token) == 'string') {
       dispatch({
@@ -21,8 +21,8 @@ export function fetchTokenFromCookies() {
 
 // Request new token from server
 // and save it in redux store
-export function fetchTokenFromServer(login, password) {
-  return async(dispatch, getState) => {
+export function fetchTokenFromServer(login: string, password: string): Function {
+  return async(dispatch: Function, getState: Function) => {
     // Notify that fetch started
     dispatch({
       type: types.TOKEN_FETCH_STARTED
@@ -45,8 +45,8 @@ export function fetchTokenFromServer(login, password) {
 }
 
 // Delete token from cookies and store
-export function invalidateToken() {
-  return async(dispatch, getState) => {
+export function invalidateToken(): Function {
+  return async(dispatch: Function, getState: Function) => {
     // Just delete token because it is JWT
     // and it does not require to notify server
     Cookies.remove('user-token');
@@ -56,8 +56,8 @@ export function invalidateToken() {
   };
 }
 
-export function showErrorMessage(error) {
-  return (dispatch, getState) => {
+export function showErrorMessage(error: string): Function {
+  return (dispatch: Function, getState: Function) => {
     dispatch({
       type: types.LOGIN_FORM_INPUT_INVALID,
       errorMessage: error
