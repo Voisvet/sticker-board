@@ -64,7 +64,7 @@ module.exports = {
             template: "src/index.html"
         }),
         new webpack.DefinePlugin({
-          BACKEND_URL: process.env.BACKEND_URL
+          BACKEND_URL: "'" + process.env.BACKEND_URL + "'"
         })
     ],
     devServer: {

@@ -6,7 +6,7 @@ const BASE_URL = 'http://localhost:8090/api';
 // Authentication and authorization of user
 // Required fields - login, password
 export async function login(login, password) {
-  const url = BASE_URL + '/login';
+  const url = BACKEND_URL + '/login';
   try {
     const response = await axios.get(url, {
       params: { login, password }
@@ -36,7 +36,7 @@ export async function login(login, password) {
 // TODO: Implement pagination using optional params
 export async function getListOfMessages(token, mode=0, amount=undefined, page=undefined) {
   // Request url
-  const url = BASE_URL + '/messages/list';
+  const url = BACKEND_URL + '/messages/list';
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -76,7 +76,7 @@ export async function getListOfMessages(token, mode=0, amount=undefined, page=un
 // TODO: Implement pagination using optional params
 export async function getListOfAdmins(token, mode=0, amount=undefined, page=undefined) {
   // Request url
-  const url = BASE_URL + '/admins/list';
+  const url = BACKEND_URL + '/admins/list';
   // Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -116,7 +116,7 @@ export async function getListOfAdmins(token, mode=0, amount=undefined, page=unde
 // TODO: Implement pagination using optional params
 export async function getListOfImages(token, mode=0, amount=undefined, page=undefined) {
   // Request url
-  const url = BASE_URL + '/rekognition/list';
+  const url = BACKEND_URL + '/rekognition/list';
   // Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -155,7 +155,7 @@ export async function getListOfImages(token, mode=0, amount=undefined, page=unde
 // Optional fields - none
 export async function logout(token) {
   // Request URL
-  const url = BASE_URL + '/logout';
+  const url = BACKEND_URL + '/logout';
   // Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -193,7 +193,7 @@ export async function logout(token) {
 // Optional fields - none
 export async function getListOfChats(token) {
   // Request url
-  const url = BASE_URL + '/messages/chats_list';
+  const url = BACKEND_URL + '/messages/chats_list';
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -232,7 +232,7 @@ export async function getListOfChats(token) {
 // Optional fields - none
 export async function getMessageInfo(token, id) {
   // Request url
-  const url = BASE_URL + '/messages/info/' + id;
+  const url = BACKEND_URL + '/messages/info/' + id;
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -271,7 +271,7 @@ export async function getMessageInfo(token, id) {
 // Optional fields - none
 export async function getMessagePayload(token, id) {
   // Request url
-  const url = BASE_URL + '/messages/payload/' + id;
+  const url = BACKEND_URL + '/messages/payload/' + id;
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -310,7 +310,7 @@ export async function getMessagePayload(token, id) {
 // Optional fields - none
 export async function deleteMessage(token, id) {
   // Request url
-  const url = BASE_URL + '/messages/info/' + id;
+  const url = BACKEND_URL + '/messages/info/' + id;
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -349,7 +349,7 @@ export async function deleteMessage(token, id) {
 // Optional fields - none
 export async function createAdmin(token, admin) {
   // Request url
-  const url = BASE_URL + '/admins/create/';
+  const url = BACKEND_URL + '/admins/create/';
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -389,7 +389,7 @@ export async function createAdmin(token, admin) {
 // Optional fields - none
 export async function deleteAdmin(token, id) {
   // Request url
-  const url = BASE_URL + '/admins/info/' + id;
+  const url = BACKEND_URL + '/admins/info/' + id;
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
@@ -428,7 +428,7 @@ export async function deleteAdmin(token, id) {
 // Optional fields - none
 export async function editAdmin(token, id, admin) {
   // Request url
-  const url = BASE_URL + '/admins/info/' + id;
+  const url = BACKEND_URL + '/admins/info/' + id;
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {
