@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import * as api from '../../services/apiConnector';
 
 describe("Testing login() function", () => {
