@@ -1,45 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Chat chips render correctly 1`] = `
-Array [
-  <div
-    className="MuiChip-root-2 MuiChip-colorPrimary-3 ChatsChips-chip-1"
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    role="button"
-    tabIndex={-1}
-  >
-    <span
-      className="MuiChip-label-21"
-    >
-      Chat name 1
-    </span>
-  </div>,
-  <div
-    className="MuiChip-root-2 MuiChip-colorPrimary-3 ChatsChips-chip-1"
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    role="button"
-    tabIndex={-1}
-  >
-    <span
-      className="MuiChip-label-21"
-    >
-      Chat name 2
-    </span>
-  </div>,
-  <div
-    className="MuiChip-root-2 MuiChip-colorPrimary-3 ChatsChips-chip-1"
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    role="button"
-    tabIndex={-1}
-  >
-    <span
-      className="MuiChip-label-21"
-    >
-      Another chat name...
-    </span>
-  </div>,
-]
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <WithStyles(ChatsChips)
+    chats={
+      Array [
+        "Chat name 1",
+        "Chat name 2",
+        "Another chat name...",
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "chats": Array [
+        "Chat name 1",
+        "Chat name 2",
+        "Another chat name...",
+      ],
+      "classes": Object {
+        "chip": "ChatsChips-chip-1",
+      },
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "chats": Array [
+          "Chat name 1",
+          "Chat name 2",
+          "Another chat name...",
+        ],
+        "classes": Object {
+          "chip": "ChatsChips-chip-1",
+        },
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
 `;
