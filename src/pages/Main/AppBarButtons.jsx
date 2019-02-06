@@ -14,9 +14,13 @@ import * as actions from '../../store/user/actions';
 const AppBarButtons = (props) => {
   return (
     <div>
-      <Link to='/app/messages' style={{color: 'white'}}>
+      {
+        /*
+        <Link to='/app/messages' style={{color: 'white'}}>
         <Button color="inherit">Messages</Button>
-      </Link>
+        </Link>
+        */
+      }
       <Link to='/app/images' style={{color: 'white'}}>
         <Button color="inherit">Images</Button>
       </Link>

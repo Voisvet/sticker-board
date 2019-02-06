@@ -62,7 +62,7 @@ interface LoginProps {
 class Login extends React.Component<LoginProps> {
   constructor(props: LoginProps) {
     super(props);
-    props.dispatch(actions.fetchTokenFromCookies());
+    //props.dispatch(actions.fetchTokenFromCookies());
   }
 
   loginButtonOnClickHandler = (event) => {

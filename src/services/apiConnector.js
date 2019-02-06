@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const BASE_URL = 'http://localhost:8090/api';
+
 // Implementation of /login request
 // Authentication and authorization of user
 // Required fields - login, password
@@ -347,7 +349,7 @@ export async function deleteMessage(token, id) {
 // Optional fields - none
 export async function createAdmin(token, admin) {
   // Request url
-  const url = BACKEND_URL + '/admins/create';
+  const url = BACKEND_URL + '/admins/create/';
   //Check token
   if (typeof(token) != 'string' || token.length <= 0) {
     return {

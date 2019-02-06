@@ -1,12 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 import Chip from '@material-ui/core/Chip';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles: StyleRulesCallback<"chip"> = theme => ({
   chip: {
     margin: 0.5 * theme.spacing.unit
   }
 });
+
+interface ChatsChipsProps {
+  chat: string;
+  classes: {
+    chip: string,
+  };
+}
 
 const ChatsChips = (props) => {
   // Display three first chats

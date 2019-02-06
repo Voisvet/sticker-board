@@ -71,7 +71,7 @@ const PayloadSwitch = (props) => {
     );
   } else if (payload_type === 'message') {
     return (
-      <Typography variant='body2'>
+      <Typography>
         { payload }
       </Typography>
     );
@@ -80,7 +80,7 @@ const PayloadSwitch = (props) => {
     return <img className={classes.image} src={src}/>;
   } else {
     return (
-      <Typography variant='body2'>
+      <Typography>
         There is no payload o_O
       </Typography>
     );
